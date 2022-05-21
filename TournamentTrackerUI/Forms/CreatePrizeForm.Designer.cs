@@ -61,7 +61,7 @@
             this.textBoxPrizeNumber.Location = new System.Drawing.Point(175, 72);
             this.textBoxPrizeNumber.Name = "textBoxPrizeNumber";
             this.textBoxPrizeNumber.Size = new System.Drawing.Size(240, 35);
-            this.textBoxPrizeNumber.TabIndex = 7;
+            this.textBoxPrizeNumber.TabIndex = 1;
             // 
             // labelPlaceNumber
             // 
@@ -72,7 +72,7 @@
             this.labelPlaceNumber.Location = new System.Drawing.Point(26, 74);
             this.labelPlaceNumber.Name = "labelPlaceNumber";
             this.labelPlaceNumber.Size = new System.Drawing.Size(148, 30);
-            this.labelPlaceNumber.TabIndex = 6;
+            this.labelPlaceNumber.TabIndex = 0;
             this.labelPlaceNumber.Text = "Prize Number";
             this.labelPlaceNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -82,7 +82,7 @@
             this.textBoxPrizeName.Location = new System.Drawing.Point(175, 124);
             this.textBoxPrizeName.Name = "textBoxPrizeName";
             this.textBoxPrizeName.Size = new System.Drawing.Size(240, 35);
-            this.textBoxPrizeName.TabIndex = 9;
+            this.textBoxPrizeName.TabIndex = 2;
             // 
             // labelPrizeName
             // 
@@ -93,7 +93,7 @@
             this.labelPrizeName.Location = new System.Drawing.Point(26, 126);
             this.labelPrizeName.Name = "labelPrizeName";
             this.labelPrizeName.Size = new System.Drawing.Size(125, 30);
-            this.labelPrizeName.TabIndex = 8;
+            this.labelPrizeName.TabIndex = 0;
             this.labelPrizeName.Text = "Prize Name";
             this.labelPrizeName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -103,7 +103,8 @@
             this.textBoxPrizePercentage.Location = new System.Drawing.Point(259, 275);
             this.textBoxPrizePercentage.Name = "textBoxPrizePercentage";
             this.textBoxPrizePercentage.Size = new System.Drawing.Size(156, 35);
-            this.textBoxPrizePercentage.TabIndex = 11;
+            this.textBoxPrizePercentage.TabIndex = 4;
+            this.textBoxPrizePercentage.Text = "0";
             // 
             // labelPrizeAmount
             // 
@@ -114,7 +115,7 @@
             this.labelPrizeAmount.Location = new System.Drawing.Point(26, 203);
             this.labelPrizeAmount.Name = "labelPrizeAmount";
             this.labelPrizeAmount.Size = new System.Drawing.Size(148, 30);
-            this.labelPrizeAmount.TabIndex = 10;
+            this.labelPrizeAmount.TabIndex = 0;
             this.labelPrizeAmount.Text = "Prize Amount";
             this.labelPrizeAmount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -124,7 +125,8 @@
             this.textBoxPrizeAmount.Location = new System.Drawing.Point(259, 201);
             this.textBoxPrizeAmount.Name = "textBoxPrizeAmount";
             this.textBoxPrizeAmount.Size = new System.Drawing.Size(156, 35);
-            this.textBoxPrizeAmount.TabIndex = 13;
+            this.textBoxPrizeAmount.TabIndex = 3;
+            this.textBoxPrizeAmount.Text = "0";
             // 
             // labelPrizePercentage
             // 
@@ -135,7 +137,7 @@
             this.labelPrizePercentage.Location = new System.Drawing.Point(26, 277);
             this.labelPrizePercentage.Name = "labelPrizePercentage";
             this.labelPrizePercentage.Size = new System.Drawing.Size(175, 30);
-            this.labelPrizePercentage.TabIndex = 12;
+            this.labelPrizePercentage.TabIndex = 0;
             this.labelPrizePercentage.Text = "Prize Percentage";
             this.labelPrizePercentage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -148,7 +150,7 @@
             this.labelOr.Location = new System.Drawing.Point(65, 241);
             this.labelOr.Name = "labelOr";
             this.labelOr.Size = new System.Drawing.Size(59, 30);
-            this.labelOr.TabIndex = 14;
+            this.labelOr.TabIndex = 0;
             this.labelOr.Text = "-OR-";
             this.labelOr.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -164,9 +166,10 @@
             this.buttonCreatePrize.Margin = new System.Windows.Forms.Padding(0);
             this.buttonCreatePrize.Name = "buttonCreatePrize";
             this.buttonCreatePrize.Size = new System.Drawing.Size(286, 56);
-            this.buttonCreatePrize.TabIndex = 22;
+            this.buttonCreatePrize.TabIndex = 5;
             this.buttonCreatePrize.Text = "Create Prize";
             this.buttonCreatePrize.UseVisualStyleBackColor = true;
+            this.buttonCreatePrize.Click += new System.EventHandler(this.buttonCreatePrize_Click);
             this.buttonCreatePrize.MouseEnter += new System.EventHandler(this.buttonCreatePrize_MouseEnter);
             this.buttonCreatePrize.MouseLeave += new System.EventHandler(this.buttonCreatePrize_MouseLeave);
             this.buttonCreatePrize.MouseHover += new System.EventHandler(this.buttonCreatePrize_MouseHover);
