@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TournamentTrackerLibrary
+namespace TournamentTrackerLibrary.Models
 {
     public class PrizeModel
     {
@@ -32,7 +28,7 @@ namespace TournamentTrackerLibrary
         /// </summary>
         public double PrizePercentage { get; set; }
 
-        public PrizeModel() {}
+        public PrizeModel() { }
 
         public PrizeModel(string placeNumber, string placeName, string prizeAmount, string prizePercentage)
         {

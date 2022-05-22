@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TournamentTrackerLibrary.DataAccess;
 
 namespace TournamentTrackerLibrary
 {
     public static class GlobalConfig
     {
         public static List<IDataConnection> Connections { get; private set; } = new List<IDataConnection>();
+        public static string? SqlConnectionString { get; set; }
 
         public static void InitializeConnections(bool database, bool textFiles)
         {
