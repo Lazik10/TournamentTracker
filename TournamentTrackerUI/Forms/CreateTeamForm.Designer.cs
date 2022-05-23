@@ -159,6 +159,7 @@
             this.buttonCreateMember.TabIndex = 16;
             this.buttonCreateMember.Text = "Create Member";
             this.buttonCreateMember.UseVisualStyleBackColor = true;
+            this.buttonCreateMember.Click += new System.EventHandler(this.buttonCreateMember_Click);
             this.buttonCreateMember.MouseEnter += new System.EventHandler(this.button_MouseEnter);
             this.buttonCreateMember.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             this.buttonCreateMember.MouseHover += new System.EventHandler(this.button_MouseHover);

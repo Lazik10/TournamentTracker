@@ -46,6 +46,22 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
             return prizeModels;
         }
 
+        public static List<PersonModel> ConvertToPersonModels(this List<string> lines)
+        {
+            List<PersonModel> personModels = new List<PersonModel>();
+
+            foreach (string line in lines)
+            {
+                string[] column = line.Split(',');
+
+                PersonModel person = new PersonModel(column[1], column[2], column[3], column[4]);
+                person.Id = int.Parse(column[0]);
+                personModels.Add(person);
+            }
+
+            return personModels;
+        }
+
         public static void SaveToPrizeFile(this List<PrizeModel> models, string fileName)
         {
             List<string> lines = new List<string>();
@@ -53,6 +69,18 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
             foreach (PrizeModel prizeModel in models)
             {
                 lines.Add($"{prizeModel.Id},{prizeModel.PlaceNumber},{prizeModel.PlaceName},{prizeModel.PrizeAmount},{prizeModel.PrizePercentage}");
+            }
+
+            File.WriteAllLines(fileName.FullFilePath(), lines);
+        }
+
+        public static void SaveToContestantsFile(this List<PersonModel> models, string fileName)
+        {
+            List<string> lines = new List<string>();
+
+            foreach (PersonModel personModel in models)
+            {
+                lines.Add($"{personModel.Id},{personModel.FirstName},{personModel.LastName},{personModel.EmailAddress},{personModel.CellphoneNumber}");
             }
 
             File.WriteAllLines(fileName.FullFilePath(), lines);

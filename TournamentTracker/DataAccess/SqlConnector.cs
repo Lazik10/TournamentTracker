@@ -7,7 +7,6 @@ namespace TournamentTrackerLibrary.DataAccess
 {
     public class SqlConnector : IDataConnection
     {
-        // TODO - Make the CreatePrize method actually save to the database
         /// <summary>
         /// Saves a new prize to a database
         /// </summary>
@@ -27,9 +26,32 @@ namespace TournamentTrackerLibrary.DataAccess
                 connection.Execute("dbo.spPrizes_Insert", parameters, commandType: CommandType.StoredProcedure);
 
                 prize.Id = parameters.Get<int>("id");
-                GlobalConfig.LastSavedID = prize.Id;
 
                 return prize;
+            }
+        }
+
+        /// <summary>
+        /// Saves a new person (contestant) into the database
+        /// </summary>
+        /// <param name="person">Person informations</param>
+        /// <returns>Peerson information with specific unique identifier</returns>
+        public PersonModel CreatePerson(PersonModel person)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.SqlConnectionString))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@PersonFirstName", person.FirstName);
+                parameters.Add("@PersonLastName", person.LastName);
+                parameters.Add("@PersonEmail", person.EmailAddress);
+                parameters.Add("@PersonPhone", person.CellphoneNumber);
+                parameters.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                connection.Execute("dbo.spContestants_Insert", parameters, commandType: CommandType.StoredProcedure);
+
+                person.Id = parameters.Get<int>("id");
+
+                return person;
             }
         }
     }

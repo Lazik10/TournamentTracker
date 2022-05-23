@@ -6,13 +6,13 @@ namespace TournamentTrackerLibrary.DataAccess
     public class TextConnector : IDataConnection
     {
         private const string PrizeFile = "PrizeModels.csv";
+        private const string ContestantFile = "ContestantModels.csv";
 
-        // TODO - Create prize
         /// <summary>
-        /// 
+        /// Creates new prize and stores it in csv file with unique ID
         /// </summary>
-        /// <param name="prize"></param>
-        /// <returns></returns>
+        /// <param name="prize">Prize informations</param>
+        /// <returns>Prize with unique ID</returns>
         public PrizeModel CreatePrize(PrizeModel prize)
         {
             List<PrizeModel> prizes = PrizeFile.FullFilePath().LoadFile().ConvertToPrizeModels();
@@ -28,6 +28,28 @@ namespace TournamentTrackerLibrary.DataAccess
             prizes.SaveToPrizeFile(PrizeFile);
 
             return prize;
+        }
+
+        /// <summary>
+        /// Creates new contestant (person) and stores it in csv file with unique ID
+        /// </summary>
+        /// <param name="prize">Person informations</param>
+        /// <returns>Person with unique ID</returns>
+        public PersonModel CreatePerson(PersonModel person)
+        {
+            List<PersonModel> contestants = ContestantFile.FullFilePath().LoadFile().ConvertToPersonModels();
+
+            int currentId = 1;
+
+            if (contestants.Count > 0)
+                currentId = contestants.OrderByDescending(x => x.Id).First().Id + 1;
+
+            person.Id = currentId;
+
+            contestants.Add(person);
+            contestants.SaveToContestantsFile(ContestantFile);
+
+            return person;
         }
     }
 }
