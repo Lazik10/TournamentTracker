@@ -27,6 +27,7 @@ namespace TournamentTrackerLibrary.DataAccess
                 connection.Execute("dbo.spPrizes_Insert", parameters, commandType: CommandType.StoredProcedure);
 
                 prize.Id = parameters.Get<int>("id");
+                GlobalConfig.LastSavedID = prize.Id;
 
                 return prize;
             }

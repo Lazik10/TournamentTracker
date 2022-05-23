@@ -6,6 +6,7 @@ namespace TournamentTrackerLibrary
     {
         public static List<IDataConnection> Connections { get; private set; } = new List<IDataConnection>();
         public static string? SqlConnectionString { get; set; }
+        internal static int LastSavedID { get; set; }
 
         public static void InitializeConnections(bool database, bool textFiles)
         {
