@@ -1,6 +1,7 @@
 ﻿using TournamentTrackerLibrary;
 using TournamentTrackerLibrary.DataAccess;
 using TournamentTrackerLibrary.Models;
+using TournamentTrackerUI.Interfaces;
 
 namespace TournamentTrackerUI.Forms
 {
@@ -9,12 +10,19 @@ namespace TournamentTrackerUI.Forms
         private List<PersonModel> availableTeamMembers = GlobalConfig.Connections[0].GetAllPersons();
         private List<PersonModel> selectedTeamMembers = new List<PersonModel>();
 
+        private ITeamRequester? callingForm;
+
         public CreateTeamForm()
         {
             InitializeComponent();
 
-/*            CreateSampleData();*/
+            /*CreateSampleData();*/
             UpdateFormLists();
+        }
+
+        public CreateTeamForm(ITeamRequester callingForm) : this()
+        {
+            this.callingForm = callingForm;
         }
 
         private void CreateSampleData()
@@ -123,10 +131,12 @@ namespace TournamentTrackerUI.Forms
 
             foreach (IDataConnection connection in GlobalConfig.Connections)
             {
+                // TODO: Fix a problem with different IDs when saving to one source only
                 connection.CreateTeam(team);
             }
 
-            // TODO - If we aren't closing this form after creation of the team, reset the form
+            callingForm?.GetTeam(team);
+            Close();
         }
     }
 }

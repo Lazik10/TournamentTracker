@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using TournamentTrackerLibrary;
+﻿using TournamentTrackerLibrary;
 using TournamentTrackerLibrary.DataAccess;
 using TournamentTrackerLibrary.Models;
+using TournamentTrackerUI.Interfaces;
 
 namespace TournamentTrackerUI.Forms
 {
     public partial class CreatePrizeForm : Form
     {
+        private readonly IPrizeRequester? callingForm; 
+
         public CreatePrizeForm()
         {
             InitializeComponent();
+        }
+
+        public CreatePrizeForm(IPrizeRequester callingForm) : this()
+        {
+            this.callingForm = callingForm;
         }
 
         private void buttonCreatePrize_MouseHover(object sender, EventArgs e)
@@ -50,7 +49,10 @@ namespace TournamentTrackerUI.Forms
                     db.CreatePrize(prize);
                 }
 
-                ClearForm();
+                callingForm?.GetPrize(prize);
+                Close();
+
+                //ClearForm();
             }
             else
                 MessageBox.Show("Your entered informations are invalid! Please check it again");

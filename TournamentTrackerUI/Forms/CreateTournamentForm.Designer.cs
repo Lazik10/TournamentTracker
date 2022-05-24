@@ -135,6 +135,7 @@
             this.linkLabelCreateNewTeam.TabIndex = 8;
             this.linkLabelCreateNewTeam.TabStop = true;
             this.linkLabelCreateNewTeam.Text = "Create New";
+            this.linkLabelCreateNewTeam.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelCreateNewTeam_LinkClicked);
             // 
             // buttonAddTeam
             // 
@@ -169,6 +170,7 @@
             this.buttonCreatePrize.TabIndex = 13;
             this.buttonCreatePrize.Text = "Create Prize";
             this.buttonCreatePrize.UseVisualStyleBackColor = true;
+            this.buttonCreatePrize.Click += new System.EventHandler(this.buttonCreatePrize_Click);
             this.buttonCreatePrize.MouseEnter += new System.EventHandler(this.button_MouseEnter);
             this.buttonCreatePrize.MouseLeave += new System.EventHandler(this.button_MounseLeave);
             this.buttonCreatePrize.MouseHover += new System.EventHandler(this.button_MouseHover);
@@ -250,6 +252,7 @@
             this.buttonDeleteTeam.TabIndex = 19;
             this.buttonDeleteTeam.Text = "Delete";
             this.buttonDeleteTeam.UseVisualStyleBackColor = true;
+            this.buttonDeleteTeam.Click += new System.EventHandler(this.buttonDeleteTeam_Click);
             this.buttonDeleteTeam.MouseEnter += new System.EventHandler(this.button_MouseEnter);
             this.buttonDeleteTeam.MouseLeave += new System.EventHandler(this.button_MounseLeave);
             this.buttonDeleteTeam.MouseHover += new System.EventHandler(this.button_MouseHover);
@@ -268,6 +271,7 @@
             this.buttonPrize.TabIndex = 20;
             this.buttonPrize.Text = "Delete";
             this.buttonPrize.UseVisualStyleBackColor = true;
+            this.buttonPrize.Click += new System.EventHandler(this.buttonPrize_Click);
             this.buttonPrize.MouseEnter += new System.EventHandler(this.button_MouseEnter);
             this.buttonPrize.MouseLeave += new System.EventHandler(this.button_MounseLeave);
             this.buttonPrize.MouseHover += new System.EventHandler(this.button_MouseHover);

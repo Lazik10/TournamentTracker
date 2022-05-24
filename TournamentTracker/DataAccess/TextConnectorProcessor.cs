@@ -81,6 +81,8 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
                 {
                     team.TeamMembers.Add(contestants.Where(x => x.Id == int.Parse(id)).First());
                 }
+
+                teams.Add(team);
             }
 
             return teams;

@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using TournamentTrackerLibrary;
+﻿using TournamentTrackerLibrary;
 using TournamentTrackerLibrary.Models;
+using TournamentTrackerUI.Interfaces;
 
 namespace TournamentTrackerUI.Forms
 {
-    public partial class CreateTournamentForm : Form
+    public partial class CreateTournamentForm : Form, IPrizeRequester, ITeamRequester
     {
         List<TeamModel> availableTeams = GlobalConfig.Connections[0].GetAllTeams();
         List<TeamModel> selectedTeams = new List<TeamModel>();
@@ -28,17 +20,17 @@ namespace TournamentTrackerUI.Forms
         private void UpdateFormLists()
         {
             comboBoxSelectTeam.DataSource = null;
-            comboBoxSelectTeam.DataSource = availableTeams;
+            comboBoxSelectTeam.DataSource = availableTeams.OrderBy(x => x.TeamName).ToList();
             comboBoxSelectTeam.DisplayMember = "TeamName";
             comboBoxSelectTeam.ValueMember = "Id";
 
             listBoxTeams.DataSource = null;
-            listBoxTeams.DataSource = selectedTeams;
+            listBoxTeams.DataSource = selectedTeams.OrderBy(x => x.TeamName).ToList();
             listBoxTeams.DisplayMember = "TeamName";
             listBoxTeams.ValueMember = "Id";
 
             listBoxPrizes.DataSource = null;
-            listBoxPrizes.DataSource = selectedPrizes;
+            listBoxPrizes.DataSource = selectedPrizes.OrderBy(x => x.PlaceNumber).ToList();
             listBoxPrizes.DisplayMember = "PlaceName";
             listBoxPrizes.ValueMember = "Id";
         }
@@ -72,6 +64,54 @@ namespace TournamentTrackerUI.Forms
             }
 
             UpdateFormLists();
+        }
+
+        private void buttonDeleteTeam_Click(object sender, EventArgs e)
+        {
+            TeamModel team = (TeamModel)listBoxTeams.SelectedItem;
+
+            if (team is not null)
+            {
+                selectedTeams.Remove(team);
+                availableTeams.Add(team);
+            }
+
+            UpdateFormLists();
+        }
+
+        private void buttonCreatePrize_Click(object sender, EventArgs e)
+        {
+            CreatePrizeForm prizeForm = new CreatePrizeForm(this);
+            prizeForm.Show();
+        }
+
+        private void buttonPrize_Click(object sender, EventArgs e)
+        {
+            PrizeModel prize = (PrizeModel)listBoxPrizes.SelectedItem;
+
+            if (prize is not null)
+            {
+                selectedPrizes.Remove(prize);
+            }
+
+            UpdateFormLists();
+        }
+        public void GetPrize(PrizeModel prize)
+        {
+            selectedPrizes.Add(prize);
+            UpdateFormLists();
+        }
+
+        public void GetTeam(TeamModel team)
+        {
+            selectedTeams.Add(team);
+            UpdateFormLists();
+        }
+
+        private void linkLabelCreateNewTeam_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            CreateTeamForm teamForm = new CreateTeamForm();
+            teamForm.Show();
         }
     }
 }

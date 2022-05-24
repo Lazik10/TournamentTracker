@@ -11,14 +11,12 @@ namespace TournamentTrackerLibrary
         {
             if (database)
             {
-                // TODO - Set up the SQL Connector properly
                 SqlConnector sql = new SqlConnector();
                 Connections.Add(sql);
             }
 
             if (textFiles)
             {
-                // TODO - Create the Text Connection
                 TextConnector text = new TextConnector();
                 Connections.Add(text);
             }
