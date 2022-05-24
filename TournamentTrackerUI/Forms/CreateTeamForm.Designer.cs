@@ -33,7 +33,7 @@
             this.textBoxTournamentName = new System.Windows.Forms.TextBox();
             this.labelTournamentName = new System.Windows.Forms.Label();
             this.buttonAddTeam = new System.Windows.Forms.Button();
-            this.comboBoxSelectTeam = new System.Windows.Forms.ComboBox();
+            this.comboBoxSelectTeamMember = new System.Windows.Forms.ComboBox();
             this.labelSelectTeam = new System.Windows.Forms.Label();
             this.groupBoxNewMember = new System.Windows.Forms.GroupBox();
             this.buttonCreateMember = new System.Windows.Forms.Button();
@@ -99,18 +99,19 @@
             this.buttonAddTeam.TabIndex = 15;
             this.buttonAddTeam.Text = "Add";
             this.buttonAddTeam.UseVisualStyleBackColor = true;
+            this.buttonAddTeam.Click += new System.EventHandler(this.buttonAddTeam_Click);
             this.buttonAddTeam.MouseEnter += new System.EventHandler(this.button_MouseEnter);
             this.buttonAddTeam.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             this.buttonAddTeam.MouseHover += new System.EventHandler(this.button_MouseHover);
             // 
-            // comboBoxSelectTeam
+            // comboBoxSelectTeamMember
             // 
-            this.comboBoxSelectTeam.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.comboBoxSelectTeam.FormattingEnabled = true;
-            this.comboBoxSelectTeam.Location = new System.Drawing.Point(21, 172);
-            this.comboBoxSelectTeam.Name = "comboBoxSelectTeam";
-            this.comboBoxSelectTeam.Size = new System.Drawing.Size(321, 29);
-            this.comboBoxSelectTeam.TabIndex = 14;
+            this.comboBoxSelectTeamMember.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.comboBoxSelectTeamMember.FormattingEnabled = true;
+            this.comboBoxSelectTeamMember.Location = new System.Drawing.Point(21, 172);
+            this.comboBoxSelectTeamMember.Name = "comboBoxSelectTeamMember";
+            this.comboBoxSelectTeamMember.Size = new System.Drawing.Size(321, 29);
+            this.comboBoxSelectTeamMember.TabIndex = 14;
             // 
             // labelSelectTeam
             // 
@@ -271,6 +272,7 @@
             this.buttonDeleteTeamMember.TabIndex = 20;
             this.buttonDeleteTeamMember.Text = "Delete";
             this.buttonDeleteTeamMember.UseVisualStyleBackColor = true;
+            this.buttonDeleteTeamMember.Click += new System.EventHandler(this.buttonDeleteTeamMember_Click);
             this.buttonDeleteTeamMember.MouseEnter += new System.EventHandler(this.button_MouseEnter);
             this.buttonDeleteTeamMember.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             this.buttonDeleteTeamMember.MouseHover += new System.EventHandler(this.button_MouseHover);
@@ -305,7 +307,7 @@
             this.Controls.Add(this.listBoxTeamMembers);
             this.Controls.Add(this.groupBoxNewMember);
             this.Controls.Add(this.buttonAddTeam);
-            this.Controls.Add(this.comboBoxSelectTeam);
+            this.Controls.Add(this.comboBoxSelectTeamMember);
             this.Controls.Add(this.labelSelectTeam);
             this.Controls.Add(this.textBoxTournamentName);
             this.Controls.Add(this.labelTournamentName);
@@ -329,7 +331,7 @@
         private TextBox textBoxTournamentName;
         private Label labelTournamentName;
         private Button buttonAddTeam;
-        private ComboBox comboBoxSelectTeam;
+        private ComboBox comboBoxSelectTeamMember;
         private Label labelSelectTeam;
         private GroupBox groupBoxNewMember;
         private Button buttonCreateMember;

@@ -19,19 +19,23 @@
         /// <summary>
         /// Person's email address
         /// </summary>
-        public string EmailAddress { get; set; }
+        public string Address { get; set; }
 
         /// <summary>
         /// Person's cellphone number
         /// </summary>
-        public string CellphoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
-        public PersonModel(string firstName, string lastName, string emailAddress, string cellphoneNumber)
+        public string FullName { get { return $"{FirstName} {LastName}"; } }
+
+        public PersonModel() { }
+
+        public PersonModel(string firstName, string lastName, string emailAddress, string phoneNumber)
         {
             FirstName = firstName;
             LastName = lastName;
-            EmailAddress = emailAddress;
-            CellphoneNumber = cellphoneNumber;
+            Address = emailAddress;
+            PhoneNumber = phoneNumber;
         }
     }
 }

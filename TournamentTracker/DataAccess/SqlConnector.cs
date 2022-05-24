@@ -43,8 +43,8 @@ namespace TournamentTrackerLibrary.DataAccess
                 var parameters = new DynamicParameters();
                 parameters.Add("@PersonFirstName", person.FirstName);
                 parameters.Add("@PersonLastName", person.LastName);
-                parameters.Add("@PersonEmail", person.EmailAddress);
-                parameters.Add("@PersonPhone", person.CellphoneNumber);
+                parameters.Add("@PersonEmail", person.Address);
+                parameters.Add("@PersonPhone", person.PhoneNumber);
                 parameters.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
 
                 connection.Execute("dbo.spContestants_Insert", parameters, commandType: CommandType.StoredProcedure);
@@ -53,6 +53,18 @@ namespace TournamentTrackerLibrary.DataAccess
 
                 return person;
             }
+        }
+
+        public List<PersonModel> GetAllPersons()
+        {
+            List<PersonModel> persons = new List<PersonModel>();
+
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.SqlConnectionString))
+            {
+                persons = connection.Query<PersonModel>("dbo.spContestants_GetAll").ToList();
+            }
+
+            return persons;
         }
     }
 }

@@ -80,7 +80,7 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
 
             foreach (PersonModel personModel in models)
             {
-                lines.Add($"{personModel.Id},{personModel.FirstName},{personModel.LastName},{personModel.EmailAddress},{personModel.CellphoneNumber}");
+                lines.Add($"{personModel.Id},{personModel.FirstName},{personModel.LastName},{personModel.Address},{personModel.PhoneNumber}");
             }
 
             File.WriteAllLines(fileName.FullFilePath(), lines);

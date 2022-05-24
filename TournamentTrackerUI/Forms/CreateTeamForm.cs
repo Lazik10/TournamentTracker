@@ -6,9 +6,24 @@ namespace TournamentTrackerUI.Forms
 {
     public partial class CreateTeamForm : Form
     {
+        private List<PersonModel> availableTeamMembers = GlobalConfig.Connections[0].GetAllPersons();
+        private List<PersonModel> selectedTeamMembers = new List<PersonModel>();
+
         public CreateTeamForm()
         {
             InitializeComponent();
+
+/*            CreateSampleData();*/
+            WireUpLists();
+        }
+
+        private void CreateSampleData()
+        {
+            availableTeamMembers.Add(new PersonModel("Lazik", "Lazik", "", ""));
+            availableTeamMembers.Add(new PersonModel("Lazik", "Lazik", "", ""));
+
+            selectedTeamMembers.Add(new PersonModel("Lazik", "Lazik", "", ""));
+            selectedTeamMembers.Add(new PersonModel("Lazik", "Lazik", "", ""));
         }
 
         private void button_MouseEnter(object sender, EventArgs e)
@@ -37,8 +52,11 @@ namespace TournamentTrackerUI.Forms
 
                 foreach  (IDataConnection db in GlobalConfig.Connections)
                 {
-                    db.CreatePerson(contestant);
+                    contestant = db.CreatePerson(contestant);
                 }
+
+                selectedTeamMembers.Add(contestant);
+                WireUpLists();
 
                 ClearForm();
             }
@@ -60,6 +78,41 @@ namespace TournamentTrackerUI.Forms
             textBoxLastName.Text = "";
             textBoxEmail.Text = "";
             textBoxPhoneNumber.Text = "";
+        }
+
+        private void WireUpLists()
+        {
+            listBoxTeamMembers.DataSource = null;
+            listBoxTeamMembers.DataSource = selectedTeamMembers;
+            listBoxTeamMembers.DisplayMember = "FullName";
+            listBoxTeamMembers.ValueMember = "Id";
+
+            comboBoxSelectTeamMember.DataSource = null;
+            comboBoxSelectTeamMember.DataSource = availableTeamMembers;
+            comboBoxSelectTeamMember.DisplayMember = "FullName";
+            comboBoxSelectTeamMember.ValueMember = "Id";
+        }
+
+        private void buttonAddTeam_Click(object sender, EventArgs e)
+        {
+            PersonModel person = (PersonModel)comboBoxSelectTeamMember.SelectedItem;
+            
+            availableTeamMembers.Remove(person);
+            selectedTeamMembers.Add(person);
+
+            WireUpLists();
+        }
+
+        private void buttonDeleteTeamMember_Click(object sender, EventArgs e)
+        {
+            PersonModel person = (PersonModel)listBoxTeamMembers.SelectedItem;
+            if (person != null)
+            {
+                availableTeamMembers.Add(person);
+                selectedTeamMembers.Remove(person);
+            }
+
+            WireUpLists();
         }
     }
 }
