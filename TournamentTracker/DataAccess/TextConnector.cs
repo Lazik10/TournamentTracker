@@ -76,5 +76,10 @@ namespace TournamentTrackerLibrary.DataAccess
 
             return team;
         }
+
+        public List<TeamModel> GetAllTeams()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

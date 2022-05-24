@@ -14,7 +14,7 @@ namespace TournamentTrackerUI.Forms
             InitializeComponent();
 
 /*            CreateSampleData();*/
-            WireUpLists();
+            UpdateFormLists();
         }
 
         private void CreateSampleData()
@@ -56,7 +56,7 @@ namespace TournamentTrackerUI.Forms
                 }
 
                 selectedTeamMembers.Add(contestant);
-                WireUpLists();
+                UpdateFormLists();
 
                 ClearForm();
             }
@@ -80,7 +80,7 @@ namespace TournamentTrackerUI.Forms
             textBoxPhoneNumber.Text = "";
         }
 
-        private void WireUpLists()
+        private void UpdateFormLists()
         {
             listBoxTeamMembers.DataSource = null;
             listBoxTeamMembers.DataSource = selectedTeamMembers;
@@ -100,7 +100,7 @@ namespace TournamentTrackerUI.Forms
             availableTeamMembers.Remove(person);
             selectedTeamMembers.Add(person);
 
-            WireUpLists();
+            UpdateFormLists();
         }
 
         private void buttonDeleteTeamMember_Click(object sender, EventArgs e)
@@ -112,7 +112,7 @@ namespace TournamentTrackerUI.Forms
                 selectedTeamMembers.Remove(person);
             }
 
-            WireUpLists();
+            UpdateFormLists();
         }
 
         private void buttonCreateTeam_Click(object sender, EventArgs e)

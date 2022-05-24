@@ -150,6 +150,7 @@
             this.buttonAddTeam.TabIndex = 12;
             this.buttonAddTeam.Text = "Add Team";
             this.buttonAddTeam.UseVisualStyleBackColor = true;
+            this.buttonAddTeam.Click += new System.EventHandler(this.buttonAddTeam_Click);
             this.buttonAddTeam.MouseEnter += new System.EventHandler(this.button_MouseEnter);
             this.buttonAddTeam.MouseLeave += new System.EventHandler(this.button_MounseLeave);
             this.buttonAddTeam.MouseHover += new System.EventHandler(this.button_MouseHover);

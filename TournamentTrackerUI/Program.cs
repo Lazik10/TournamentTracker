@@ -25,7 +25,7 @@ namespace TournamentTrackerUI
             TournamentTrackerLibrary.GlobalConfig.InitializeConnections(true, true);
             TournamentTrackerLibrary.GlobalConfig.SqlConnectionString = config.GetConnectionString("SqlConnection");
 
-            Application.Run(new Forms.CreateTeamForm());
+            Application.Run(new Forms.CreateTournamentForm());
         }
     }
 }
