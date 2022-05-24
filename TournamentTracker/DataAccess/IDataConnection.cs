@@ -7,5 +7,6 @@ namespace TournamentTrackerLibrary.DataAccess
         PrizeModel CreatePrize(PrizeModel prize);
         PersonModel CreatePerson(PersonModel person);
         List<PersonModel> GetAllPersons();
+        TeamModel CreateTeam(TeamModel team);
     }
 }

@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateTeamForm));
             this.labelCreateTeam = new System.Windows.Forms.Label();
-            this.textBoxTournamentName = new System.Windows.Forms.TextBox();
+            this.textBoxTeamName = new System.Windows.Forms.TextBox();
             this.labelTournamentName = new System.Windows.Forms.Label();
             this.buttonAddTeam = new System.Windows.Forms.Button();
             this.comboBoxSelectTeamMember = new System.Windows.Forms.ComboBox();
@@ -64,13 +64,13 @@
             this.labelCreateTeam.Text = "Create Team";
             this.labelCreateTeam.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBoxTournamentName
+            // textBoxTeamName
             // 
-            this.textBoxTournamentName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxTournamentName.Location = new System.Drawing.Point(155, 79);
-            this.textBoxTournamentName.Name = "textBoxTournamentName";
-            this.textBoxTournamentName.Size = new System.Drawing.Size(263, 35);
-            this.textBoxTournamentName.TabIndex = 5;
+            this.textBoxTeamName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBoxTeamName.Location = new System.Drawing.Point(155, 79);
+            this.textBoxTeamName.Name = "textBoxTeamName";
+            this.textBoxTeamName.Size = new System.Drawing.Size(263, 35);
+            this.textBoxTeamName.TabIndex = 5;
             // 
             // labelTournamentName
             // 
@@ -292,6 +292,7 @@
             this.buttonCreateTeam.TabIndex = 21;
             this.buttonCreateTeam.Text = "Create Team";
             this.buttonCreateTeam.UseVisualStyleBackColor = true;
+            this.buttonCreateTeam.Click += new System.EventHandler(this.buttonCreateTeam_Click);
             this.buttonCreateTeam.MouseEnter += new System.EventHandler(this.button_MouseEnter);
             this.buttonCreateTeam.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             this.buttonCreateTeam.MouseHover += new System.EventHandler(this.button_MouseHover);
@@ -309,7 +310,7 @@
             this.Controls.Add(this.buttonAddTeam);
             this.Controls.Add(this.comboBoxSelectTeamMember);
             this.Controls.Add(this.labelSelectTeam);
-            this.Controls.Add(this.textBoxTournamentName);
+            this.Controls.Add(this.textBoxTeamName);
             this.Controls.Add(this.labelTournamentName);
             this.Controls.Add(this.labelCreateTeam);
             this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -328,7 +329,7 @@
         #endregion
 
         private Label labelCreateTeam;
-        private TextBox textBoxTournamentName;
+        private TextBox textBoxTeamName;
         private Label labelTournamentName;
         private Button buttonAddTeam;
         private ComboBox comboBoxSelectTeamMember;

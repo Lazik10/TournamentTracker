@@ -114,5 +114,19 @@ namespace TournamentTrackerUI.Forms
 
             WireUpLists();
         }
+
+        private void buttonCreateTeam_Click(object sender, EventArgs e)
+        {
+            TeamModel team = new TeamModel();
+            team.TeamName = textBoxTeamName.Text;
+            team.TeamMembers.AddRange(selectedTeamMembers);
+
+            foreach (IDataConnection connection in GlobalConfig.Connections)
+            {
+                connection.CreateTeam(team);
+            }
+
+            // TODO - If we aren't closing this form after creation of the team, reset the form
+        }
     }
 }

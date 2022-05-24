@@ -7,6 +7,7 @@ namespace TournamentTrackerLibrary.DataAccess
     {
         private const string PrizeFile = "PrizeModels.csv";
         private const string ContestantFile = "ContestantModels.csv";
+        private const string TeamFile = "TeamModels.csv";
 
         /// <summary>
         /// Creates new prize and stores it in csv file with unique ID
@@ -55,6 +56,25 @@ namespace TournamentTrackerLibrary.DataAccess
         public List<PersonModel> GetAllPersons()
         {
             return ContestantFile.FullFilePath().LoadFile().ConvertToPersonModels();
+        }
+
+        public TeamModel CreateTeam(TeamModel team)
+        {
+            List<TeamModel> teams = TeamFile.FullFilePath().LoadFile().ConvertToTeamModels(ContestantFile);
+
+            int currentId = 1;
+
+            if (teams.Count > 0)
+            {
+                currentId = teams.OrderByDescending(x => x.Id).First().Id + 1;
+            }
+
+            team.Id = currentId;
+            teams.Add(team);
+
+            teams.SaveToTeamsFile(TeamFile);
+
+            return team;
         }
     }
 }

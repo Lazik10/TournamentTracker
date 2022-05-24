@@ -62,6 +62,30 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
             return personModels;
         }
 
+        public static List<TeamModel> ConvertToTeamModels(this List<string> strings, string contestantFileName)
+        {
+            List<TeamModel> teams = new List<TeamModel>();
+            List<PersonModel> contestants = contestantFileName.FullFilePath().LoadFile().ConvertToPersonModels();
+
+            foreach (string line in strings)
+            {
+                string[] columns = line.Split(',');
+
+                TeamModel team = new TeamModel();
+                team.Id = int.Parse(columns[0]);
+                team.TeamName = columns[1];
+
+                string[] contestantIds = columns[2].Split('|');
+
+                foreach (string id in contestantIds)
+                {
+                    team.TeamMembers.Add(contestants.Where(x => x.Id == int.Parse(id)).First());
+                }
+            }
+
+            return teams;
+        }
+
         public static void SaveToPrizeFile(this List<PrizeModel> models, string fileName)
         {
             List<string> lines = new List<string>();
@@ -84,6 +108,26 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
             }
 
             File.WriteAllLines(fileName.FullFilePath(), lines);
+        }
+
+        public static void SaveToTeamsFile(this List<TeamModel> models, string fileName)
+        {
+            List<string> lines = new List<string>();
+
+            foreach (TeamModel teamModel in models)
+            {
+                lines.Add($"{teamModel.Id},{teamModel.TeamName},{ConvertMemberIdsToStringIds(teamModel)}");
+            }
+
+            File.WriteAllLines(fileName.FullFilePath(), lines);
+        }
+
+        public static string ConvertMemberIdsToStringIds(TeamModel teamModel)
+        {
+            if (!teamModel.TeamMembers.Any())
+                return "";
+
+            return string.Join('|', teamModel.TeamMembers.Select(x => x.Id));
         }
     }
 }

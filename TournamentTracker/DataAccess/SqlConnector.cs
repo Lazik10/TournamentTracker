@@ -66,5 +66,30 @@ namespace TournamentTrackerLibrary.DataAccess
 
             return persons;
         }
+
+        public TeamModel CreateTeam(TeamModel team)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.SqlConnectionString))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@TeamName", team.TeamName);
+                parameters.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                connection.Execute("dbo.spTeams_Insert", parameters, commandType: CommandType.StoredProcedure);
+
+                team.Id = parameters.Get<int>("id");
+
+                foreach  (PersonModel teamMember in team.TeamMembers)
+                {
+                    parameters = new DynamicParameters();
+                    parameters.Add("@TeamId", team.Id);
+                    parameters.Add("@ContestantId", teamMember.Id);
+
+                    connection.Execute("dbo.spTeamMembers_Insert", parameters, commandType: CommandType.StoredProcedure);
+                }
+
+                return team;
+            }
+        }
     }
 }
