@@ -3,6 +3,10 @@
     public class MatchupModel
     {
         /// <summary>
+        /// Unique identification od a matchup
+        /// </summary>
+        public int Id { get; set; }
+        /// <summary>
         /// Contains two teams compeating against each other
         /// </summary>
         public List<MatchupModel> Entries { get; set; } = new List<MatchupModel>();

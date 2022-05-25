@@ -190,6 +190,7 @@
             this.buttonCreateTournament.TabIndex = 14;
             this.buttonCreateTournament.Text = "Create Tournament";
             this.buttonCreateTournament.UseVisualStyleBackColor = true;
+            this.buttonCreateTournament.Click += new System.EventHandler(this.buttonCreateTournament_Click);
             this.buttonCreateTournament.MouseEnter += new System.EventHandler(this.button_MouseEnter);
             this.buttonCreateTournament.MouseLeave += new System.EventHandler(this.button_MounseLeave);
             this.buttonCreateTournament.MouseHover += new System.EventHandler(this.button_MouseHover);

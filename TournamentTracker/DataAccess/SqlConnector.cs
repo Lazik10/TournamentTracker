@@ -110,5 +110,53 @@ namespace TournamentTrackerLibrary.DataAccess
 
             return teams;
         }
+
+        public TournamentModel CreateTournament(TournamentModel tournament)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.SqlConnectionString))
+            {
+                SaveTournament(connection, tournament);
+                SaveTournamentTeams(connection, tournament);
+                SaveTournamentPrizes(connection, tournament);
+
+                return tournament;
+            }
+        }
+
+        private void SaveTournament(IDbConnection connection, TournamentModel tournament)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@TeamName", tournament.TournamentName);
+            parameters.Add("@EntryFee", tournament.EntryFee);
+            parameters.Add("@id", 0, dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+            connection.Execute("dbo.spTournaments_Insert", parameters, commandType: CommandType.StoredProcedure);
+
+            tournament.Id = parameters.Get<int>("id");
+        }
+
+        private void SaveTournamentTeams(IDbConnection connection, TournamentModel tournament)
+        {
+            foreach (TeamModel team in tournament.EntryTeams)
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@TournamentId", tournament.Id);
+                parameters.Add("@TeamId", team.Id);
+
+                connection.Execute("dbo.spsTournamentTeams_Insert", parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        private void SaveTournamentPrizes(IDbConnection connection, TournamentModel tournament)
+        {
+            foreach (PrizeModel prize in tournament.Prizes)
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@TournamentId", tournament.Id);
+                parameters.Add("@PrizeId", prize.Id);
+
+                connection.Execute("dbo.spTournamentPrizes_Insert", parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }

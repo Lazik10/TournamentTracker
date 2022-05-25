@@ -1,4 +1,5 @@
 ﻿using TournamentTrackerLibrary;
+using TournamentTrackerLibrary.DataAccess;
 using TournamentTrackerLibrary.Models;
 using TournamentTrackerUI.Interfaces;
 
@@ -112,6 +113,27 @@ namespace TournamentTrackerUI.Forms
         {
             CreateTeamForm teamForm = new CreateTeamForm();
             teamForm.Show();
+        }
+
+        private void buttonCreateTournament_Click(object sender, EventArgs e)
+        {
+            bool validFee = decimal.TryParse(textBoxEntryFee.Text, out decimal fee);
+            if (!validFee)
+            {
+                MessageBox.Show("Please insert correct fee", "Incorrect fee value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            TournamentModel tournament = new TournamentModel();
+            tournament.TournamentName = textBoxTournamentName.Text;
+            tournament.EntryFee = fee;
+            tournament.Prizes = selectedPrizes;
+            tournament.EntryTeams = selectedTeams;
+
+            foreach (IDataConnection connection in GlobalConfig.Connections)
+            {
+                connection.CreateTournament(tournament);
+            }
         }
     }
 }
