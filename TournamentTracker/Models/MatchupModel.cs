@@ -9,7 +9,7 @@
         /// <summary>
         /// Contains two teams compeating against each other
         /// </summary>
-        public List<MatchupModel> Entries { get; set; } = new List<MatchupModel>();
+        public List<MatchupTeamInfoModel> TeamsInfo { get; set; } = new List<MatchupTeamInfoModel>();
 
         /// <summary>
         /// Represents winner of the matchup

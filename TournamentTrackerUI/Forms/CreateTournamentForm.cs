@@ -1,5 +1,6 @@
 ﻿using TournamentTrackerLibrary;
 using TournamentTrackerLibrary.DataAccess;
+using TournamentTrackerLibrary.Logic;
 using TournamentTrackerLibrary.Models;
 using TournamentTrackerUI.Interfaces;
 
@@ -48,7 +49,7 @@ namespace TournamentTrackerUI.Forms
                 button.ForeColor = System.Drawing.Color.White;
         }
 
-        private void button_MounseLeave(object sender, EventArgs e)
+        private void button_MouseLeave(object sender, EventArgs e)
         {
             if (sender is Button button)
                 button.ForeColor = System.Drawing.Color.DeepSkyBlue;
@@ -111,7 +112,7 @@ namespace TournamentTrackerUI.Forms
 
         private void linkLabelCreateNewTeam_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            CreateTeamForm teamForm = new CreateTeamForm();
+            CreateTeamForm teamForm = new CreateTeamForm(this);
             teamForm.Show();
         }
 
@@ -129,6 +130,8 @@ namespace TournamentTrackerUI.Forms
             tournament.EntryFee = fee;
             tournament.Prizes = selectedPrizes;
             tournament.EntryTeams = selectedTeams;
+
+            Matchmaking.CreateRounds(tournament);
 
             foreach (IDataConnection connection in GlobalConfig.Connections)
             {

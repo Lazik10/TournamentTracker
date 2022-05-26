@@ -153,7 +153,7 @@
             this.buttonAddTeam.UseVisualStyleBackColor = true;
             this.buttonAddTeam.Click += new System.EventHandler(this.buttonAddTeam_Click);
             this.buttonAddTeam.MouseEnter += new System.EventHandler(this.button_MouseEnter);
-            this.buttonAddTeam.MouseLeave += new System.EventHandler(this.button_MounseLeave);
+            this.buttonAddTeam.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             this.buttonAddTeam.MouseHover += new System.EventHandler(this.button_MouseHover);
             // 
             // buttonCreatePrize
@@ -172,7 +172,7 @@
             this.buttonCreatePrize.UseVisualStyleBackColor = true;
             this.buttonCreatePrize.Click += new System.EventHandler(this.buttonCreatePrize_Click);
             this.buttonCreatePrize.MouseEnter += new System.EventHandler(this.button_MouseEnter);
-            this.buttonCreatePrize.MouseLeave += new System.EventHandler(this.button_MounseLeave);
+            this.buttonCreatePrize.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             this.buttonCreatePrize.MouseHover += new System.EventHandler(this.button_MouseHover);
             // 
             // buttonCreateTournament
@@ -192,7 +192,7 @@
             this.buttonCreateTournament.UseVisualStyleBackColor = true;
             this.buttonCreateTournament.Click += new System.EventHandler(this.buttonCreateTournament_Click);
             this.buttonCreateTournament.MouseEnter += new System.EventHandler(this.button_MouseEnter);
-            this.buttonCreateTournament.MouseLeave += new System.EventHandler(this.button_MounseLeave);
+            this.buttonCreateTournament.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             this.buttonCreateTournament.MouseHover += new System.EventHandler(this.button_MouseHover);
             // 
             // listBoxTeams
@@ -255,7 +255,7 @@
             this.buttonDeleteTeam.UseVisualStyleBackColor = true;
             this.buttonDeleteTeam.Click += new System.EventHandler(this.buttonDeleteTeam_Click);
             this.buttonDeleteTeam.MouseEnter += new System.EventHandler(this.button_MouseEnter);
-            this.buttonDeleteTeam.MouseLeave += new System.EventHandler(this.button_MounseLeave);
+            this.buttonDeleteTeam.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             this.buttonDeleteTeam.MouseHover += new System.EventHandler(this.button_MouseHover);
             // 
             // buttonPrize
@@ -274,7 +274,7 @@
             this.buttonPrize.UseVisualStyleBackColor = true;
             this.buttonPrize.Click += new System.EventHandler(this.buttonPrize_Click);
             this.buttonPrize.MouseEnter += new System.EventHandler(this.button_MouseEnter);
-            this.buttonPrize.MouseLeave += new System.EventHandler(this.button_MounseLeave);
+            this.buttonPrize.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             this.buttonPrize.MouseHover += new System.EventHandler(this.button_MouseHover);
             // 
             // CreateTournamentForm
