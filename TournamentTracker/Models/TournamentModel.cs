@@ -30,5 +30,7 @@
         /// List of rounds in the current tournament
         /// </summary>
         public List<List<MatchupModel>> Rounds { get; set; } = new List<List<MatchupModel>>();
+
+        public bool Active { get; set; } = true;
     }
 }

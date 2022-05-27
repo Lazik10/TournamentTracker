@@ -1,20 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using TournamentTrackerLibrary;
+using TournamentTrackerLibrary.Models;
 
 namespace TournamentTrackerUI.Forms
 {
     public partial class TournamentDashboardForm : Form
     {
+        List<TournamentModel> tournaments = GlobalConfig.Connections[0].GetAllTournaments();
+
         public TournamentDashboardForm()
         {
             InitializeComponent();
+
+            UpdateFormLists();
+        }
+
+        private void UpdateFormLists()
+        {
+            comboLoadExistingTournament.DataSource = null;
+            comboLoadExistingTournament.DataSource = tournaments.OrderBy(x => x.TournamentName).ToList();
+            comboLoadExistingTournament.DisplayMember = "TournamentName";
+            comboLoadExistingTournament.ValueMember = "Id";
         }
 
         private void button_MouseHover(object sender, EventArgs e)
@@ -33,6 +38,12 @@ namespace TournamentTrackerUI.Forms
         {
             if (sender is Button button)
                 button.ForeColor = System.Drawing.Color.White;
+        }
+
+        private void buttonCreateTournament_Click(object sender, EventArgs e)
+        {
+            CreateTournamentForm tournamentForm = new CreateTournamentForm();
+            tournamentForm.Show();
         }
     }
 }

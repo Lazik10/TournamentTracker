@@ -18,9 +18,19 @@
         public int? ParentMatchupId { get; set; }
 
         /// <summary>
+        /// Actual parent matchup model
+        /// </summary>
+        public MatchupModel? ParentMatchup { get; set; }
+
+        /// <summary>
         /// ID of a team this team info belongs to
         /// </summary>
-        public TeamModel? TeamCompetingId { get; set; }
+        public int? TeamCompetingId { get; set; }
+
+        /// <summary>
+        /// Actual team this matchup team info belongs to
+        /// </summary>
+        public TeamModel? TeamCompeting { get; set; }
 
         /// <summary>
         /// Represents the score for this particular team

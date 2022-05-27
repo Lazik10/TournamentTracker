@@ -12,7 +12,11 @@
         public List<MatchupTeamInfoModel> TeamsInfo { get; set; } = new List<MatchupTeamInfoModel>();
 
         /// <summary>
-        /// Represents winner of the matchup
+        /// Id of a team which won the match
+        /// </summary>
+        public int? WinnerId { get; set; }
+        /// <summary>
+        /// Team info of a winner
         /// </summary>
         public TeamModel? Winner { get; set; }
 

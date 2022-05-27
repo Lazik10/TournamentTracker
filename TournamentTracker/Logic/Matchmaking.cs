@@ -67,7 +67,8 @@ namespace TournamentTrackerLibrary.Logic
                 {
                     MatchupTeamInfoModel teamInfo = new MatchupTeamInfoModel();
                     TeamModel team = availableTeams[random.Next(availableTeams.Count - 1)];
-                    teamInfo.TeamCompetingId = team;
+                    teamInfo.TeamCompetingId = team.Id;
+                    teamInfo.TeamCompeting = team;
                     availableTeams.Remove(team);
 
                     matchup.TeamsInfo.Add(teamInfo);

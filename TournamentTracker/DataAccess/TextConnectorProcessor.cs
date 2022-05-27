@@ -101,7 +101,9 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
 
                 MatchupModel matchup = new MatchupModel();
                 matchup.Id = int.Parse(columns[0]);
-                matchup.Winner = string.IsNullOrEmpty(columns[1]) ? null : teams.Where(x => x.Id == int.Parse(columns[1])).First();
+                matchup.WinnerId = string.IsNullOrEmpty(columns[1]) ? null : int.Parse(columns[1]);
+                if (!string.IsNullOrEmpty(columns[1]))
+                    matchup.Winner = teams.Where(x => x.Id == int.Parse(columns[1])).First();
                 matchup.TeamsInfo = teamInfo.Where(x => x.MatchupId == matchup.Id).ToList();
                 matchup.MatchupRound = int.Parse(columns[2]);
 
@@ -124,7 +126,9 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
                 MatchupTeamInfoModel teamInfoModel = new MatchupTeamInfoModel();
                 teamInfoModel.MatchupId = int.Parse(columns[0]);
                 teamInfoModel.ParentMatchupId = string.IsNullOrEmpty(columns[1]) ? null : int.Parse(columns[1]);
-                teamInfoModel.TeamCompetingId = string.IsNullOrEmpty(columns[2]) ? null : teams.Where(x => x.Id == int.Parse(columns[2])).First();
+                teamInfoModel.TeamCompetingId = string.IsNullOrEmpty(columns[2]) ? null : int.Parse(columns[2]);
+                if (!string.IsNullOrEmpty(columns[2]))
+                    teamInfoModel.TeamCompeting = teams.Where(x => x.Id == int.Parse(columns[2])).First();
                 teamInfoModel.Score = string.IsNullOrEmpty(columns[3]) ? null : int.Parse(columns[3]);
 
                 teamInfoModels.Add(teamInfoModel);
@@ -230,7 +234,6 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
                 newMatchupId = matchups.OrderByDescending(x => x.Id).First().Id + 1;
             }
 
-            //List<string> matchupsList = new List<string>();
             List<MatchupTeamInfoModel> matchupTeamInfoList = GlobalConfig.MatchupTeamFile.FullFilePath().LoadFile().ConvertToTeamInfoModels();
 
             // We can't retrieve
@@ -246,7 +249,6 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
                     previousRoundIds.Enqueue(matchup.Id);
 
                     // Convert to string and add it to list
-                    // === matchupsList.Add(matchup.ConvertMatchupToString());
                     matchups.Add(matchup);
 
                     foreach (MatchupTeamInfoModel teamInfo in matchup.TeamsInfo)
@@ -256,7 +258,7 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
                         if (matchup.MatchupRound > 1)
                             teamInfo.ParentMatchupId = previousRoundIds.Dequeue();
 
-                        // --- matchupTeamInfoList.Add(teamInfo.ConvertTeamInfoToString());
+
                         matchupTeamInfoList.Add(teamInfo);
                     }
 
@@ -264,20 +266,18 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
                 }
             }
 
-            /*            matchupsList.SaveToMatchupFile();
-                        matchupTeamInfoList.SaveToTeamInfoFile();*/
             matchups.SaveToMatchupFile();
             matchupTeamInfoList.SaveToTeamInfoFile();
         }
 
         private static string ConvertMatchupToString(this MatchupModel matchup)
         {
-            return $"{matchup.Id},{matchup.Winner},{matchup.MatchupRound}";
+            return $"{matchup.Id},{matchup.WinnerId},{matchup.MatchupRound}";
         }
 
         private static string ConvertTeamInfoToString(this MatchupTeamInfoModel teamInfo)
         {
-            return $"{teamInfo.MatchupId},{teamInfo.ParentMatchupId},{teamInfo.TeamCompetingId?.Id},{teamInfo.Score}";
+            return $"{teamInfo.MatchupId},{teamInfo.ParentMatchupId},{teamInfo.TeamCompetingId},{teamInfo.Score}";
         }
 
         private static void SaveToMatchupFile(this List<MatchupModel> matchups)
