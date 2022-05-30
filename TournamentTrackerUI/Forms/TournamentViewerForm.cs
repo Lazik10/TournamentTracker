@@ -155,6 +155,8 @@ namespace TournamentTrackerUI.Forms
 
                 if (firstTeamScore == secondTeamScore)
                 {
+                    textBoxFirstTeamScore.Text = "";
+                    textBoxSecondTeamScore.Text = "";
                     MessageBox.Show("Game's result can't be tie!");
                     return;
                 }
