@@ -27,6 +27,9 @@
         /// </summary>
         public int MatchupRound { get; set; }
 
+        /// <summary>
+        /// String representation of teams competing against each other in a matchup
+        /// </summary>
         public string? TeamsCompeting { get; set; }
     }
 }

@@ -43,6 +43,7 @@ namespace TournamentTrackerUI.Forms
         private void buttonCreateTournament_Click(object sender, EventArgs e)
         {
             CreateTournamentForm tournamentForm = new CreateTournamentForm();
+            tournamentForm.LoadTournaments += UpdateTournamentList;
             tournamentForm.Show();
         }
 
@@ -51,6 +52,12 @@ namespace TournamentTrackerUI.Forms
             TournamentModel selectedTournament = (TournamentModel)comboLoadExistingTournament.SelectedItem;
             TournamentViewerForm viewTournamentForm = new TournamentViewerForm(selectedTournament);
             viewTournamentForm.Show();
+        }
+
+        public void UpdateTournamentList(object? sender, EventArgs e)
+        {
+            tournaments = GlobalConfig.Connections[0].GetAllTournaments();
+            UpdateFormLists();
         }
     }
 }

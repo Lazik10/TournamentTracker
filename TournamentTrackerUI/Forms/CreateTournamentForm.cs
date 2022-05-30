@@ -12,6 +12,8 @@ namespace TournamentTrackerUI.Forms
         List<TeamModel> selectedTeams = new List<TeamModel>();
         List<PrizeModel> selectedPrizes = new List<PrizeModel>();
 
+        public event EventHandler? LoadTournaments;
+
         public CreateTournamentForm()
         {
             InitializeComponent();
@@ -135,6 +137,9 @@ namespace TournamentTrackerUI.Forms
 
                 TournamentViewerForm viewTournamentForm = new TournamentViewerForm(tournament);
                 viewTournamentForm.Show();
+
+                LoadTournaments?.Invoke(this, new EventArgs());
+
                 Close();
             }
         }
