@@ -41,7 +41,10 @@ namespace TournamentTrackerUI.Forms
             }
 
             if (listBoxRoundMatchups.Items.Count > 0)
+            {
+                listBoxRoundMatchups.SelectedIndex = 0;
                 DisplayMatchupInfo(true);
+            }
             else
                 DisplayMatchupInfo(false);
         }
@@ -77,19 +80,13 @@ namespace TournamentTrackerUI.Forms
         private void comboBoxRound_SelectedIndexChanged(object sender, EventArgs e)
         {
             LoadMatchups();
+            GetSelectedMatchupInfo(out MatchupModel? matchup, out MatchupTeamInfoModel firstTeamInfo, out MatchupTeamInfoModel secondTeamInfo);
+            UpdateMatchupInfoVisibility(matchup, firstTeamInfo, secondTeamInfo);
         }
 
         private void listBoxRoundMatchups_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MatchupTeamInfoModel firstTeamInfo = new MatchupTeamInfoModel();
-            MatchupTeamInfoModel secondTeamInfo = new MatchupTeamInfoModel();
-
-            MatchupModel? matchup = listBoxRoundMatchups.SelectedItem as MatchupModel;
-            if (matchup != null)
-            {
-                firstTeamInfo = matchup.TeamsInfo[0];
-                secondTeamInfo = matchup.TeamsInfo[1];
-            }
+            GetSelectedMatchupInfo(out MatchupModel? matchup, out MatchupTeamInfoModel firstTeamInfo, out MatchupTeamInfoModel secondTeamInfo);
 
             string? firstTeamName = tournament.EntryTeams.Find(x => x.Id == firstTeamInfo?.TeamCompetingId)?.TeamName;
             string? secondTeamName = tournament.EntryTeams.Find(x => x.Id == secondTeamInfo?.TeamCompetingId)?.TeamName;
@@ -102,6 +99,15 @@ namespace TournamentTrackerUI.Forms
 
         private void UpdateMatchupInfoVisibility(MatchupModel? matchup, MatchupTeamInfoModel firstTeamInfo, MatchupTeamInfoModel secondTeamInfo)
         {
+            if (matchup is null)
+            {
+                labelFirstTeamName.Visible = false;
+                labelSecondTeamName.Visible = false;
+                textBoxFirstTeamScore.Visible = false;
+                textBoxSecondTeamScore.Visible = false;
+                return;
+            }
+
             if (matchup?.Winner is null)
             {
                 labelFirstTeamScore.Visible = false;
@@ -127,15 +133,7 @@ namespace TournamentTrackerUI.Forms
         {
             unplayedOnly = !unplayedOnly;
             LoadMatchups();
-
-            MatchupTeamInfoModel firstTeamInfo = new MatchupTeamInfoModel();
-            MatchupTeamInfoModel secondTeamInfo = new MatchupTeamInfoModel();
-            MatchupModel? matchup = listBoxRoundMatchups.SelectedItem as MatchupModel;
-            if (matchup != null)
-            {
-                firstTeamInfo = matchup.TeamsInfo[0];
-                secondTeamInfo = matchup.TeamsInfo[1];
-            }
+            GetSelectedMatchupInfo(out MatchupModel? matchup, out MatchupTeamInfoModel firstTeamInfo, out MatchupTeamInfoModel secondTeamInfo);
             UpdateMatchupInfoVisibility(matchup, firstTeamInfo, secondTeamInfo);
         }
 
@@ -158,15 +156,18 @@ namespace TournamentTrackerUI.Forms
 
                 if (firstTeamScore == secondTeamScore)
                 {
-                    textBoxFirstTeamScore.Text = "";
-                    textBoxSecondTeamScore.Text = "";
+                    ClearScore();
                     MessageBox.Show("Game's result can't be tie!");
                     return;
                 }
 
                 if (matchup is not null)
                     Matchmaking.UpdateTournamentResults(tournament, matchup, firstTeamScore, secondTeamScore);
+                
                 LoadMatchups();
+
+                GetSelectedMatchupInfo(out MatchupModel? matchupNew, out MatchupTeamInfoModel firstTeamInfo, out MatchupTeamInfoModel secondTeamInfo);
+                UpdateMatchupInfoVisibility(matchupNew, firstTeamInfo, secondTeamInfo);
             }
             else
                 MessageBox.Show("Your score is invalid");
@@ -178,8 +179,9 @@ namespace TournamentTrackerUI.Forms
             if (matchupRoundId > 1)
             {
                 var matchups = tournament.Rounds[matchupRoundId - 1].Where(x => x.WinnerId == null).ToList();
-                if (matchups.Count == 0)
+                if (matchups.Count > 0)
                 {
+                    ClearScore();
                     MessageBox.Show("Previous round is not finished yet.");
                     return false;
                 }
@@ -190,6 +192,24 @@ namespace TournamentTrackerUI.Forms
         private bool ValidateScore()
         {
             return double.TryParse(textBoxFirstTeamScore.Text, out _) && double.TryParse(textBoxSecondTeamScore.Text, out _);
+        }
+
+        private void ClearScore()
+        {
+            textBoxFirstTeamScore.Text = "";
+            textBoxSecondTeamScore.Text = "";
+        }
+
+        private void GetSelectedMatchupInfo(out MatchupModel? matchup, out MatchupTeamInfoModel firstTeamInfo, out MatchupTeamInfoModel secondTeamInfo)
+        {
+            firstTeamInfo = new MatchupTeamInfoModel();
+            secondTeamInfo = new MatchupTeamInfoModel();
+            matchup = listBoxRoundMatchups.SelectedItem as MatchupModel;
+            if (matchup != null)
+            {
+                firstTeamInfo = matchup.TeamsInfo[0];
+                secondTeamInfo = matchup.TeamsInfo[1];
+            }
         }
     }
 }
