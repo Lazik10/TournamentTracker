@@ -54,13 +54,13 @@ namespace TournamentTrackerUI.Forms
 
         private void buttonCreateMember_Click(object sender, EventArgs e)
         {
-            if (ValidateForm())
+            if (ValidateCreateMemberForm())
             {
                 PersonModel contestant = new PersonModel(textBoxFirstName.Text, textBoxLastName.Text, textBoxEmail.Text, textBoxPhoneNumber.Text);
 
                 foreach  (IDataConnection db in GlobalConfig.Connections)
                 {
-                    contestant = db.CreatePerson(contestant);
+                    db.CreatePerson(contestant);
                 }
 
                 selectedTeamMembers.Add(contestant);
@@ -72,7 +72,7 @@ namespace TournamentTrackerUI.Forms
                 MessageBox.Show("You need to fill all the required data!");
         }
 
-        private bool ValidateForm()
+        private bool ValidateCreateMemberForm()
         {
             if (textBoxFirstName.Text.Length == 0 || textBoxLastName.Text.Length == 0
                 || textBoxPhoneNumber.Text.Length == 0 || textBoxPhoneNumber.Text.Length == 0)
@@ -131,7 +131,6 @@ namespace TournamentTrackerUI.Forms
 
             foreach (IDataConnection connection in GlobalConfig.Connections)
             {
-                // TODO: Fix a problem with different IDs when saving to one source only
                 connection.CreateTeam(team);
             }
 

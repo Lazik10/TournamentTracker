@@ -12,7 +12,7 @@ namespace TournamentTrackerLibrary.DataAccess
         /// </summary>
         /// <param name="prize">The prize informations</param>
         /// <returns>The prize informations with unique identifier</returns>
-        public PrizeModel CreatePrize(PrizeModel prize)
+        public void CreatePrize(PrizeModel prize)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.SqlConnectionString))
             {
@@ -26,8 +26,6 @@ namespace TournamentTrackerLibrary.DataAccess
                 connection.Execute("dbo.spPrizes_Insert", parameters, commandType: CommandType.StoredProcedure);
 
                 prize.Id = parameters.Get<int>("id");
-
-                return prize;
             }
         }
 
@@ -36,7 +34,7 @@ namespace TournamentTrackerLibrary.DataAccess
         /// </summary>
         /// <param name="person">Person informations</param>
         /// <returns>Peerson information with specific unique identifier</returns>
-        public PersonModel CreatePerson(PersonModel person)
+        public void CreatePerson(PersonModel person)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.SqlConnectionString))
             {
@@ -50,8 +48,6 @@ namespace TournamentTrackerLibrary.DataAccess
                 connection.Execute("dbo.spContestants_Insert", parameters, commandType: CommandType.StoredProcedure);
 
                 person.Id = parameters.Get<int>("id");
-
-                return person;
             }
         }
 
@@ -67,7 +63,7 @@ namespace TournamentTrackerLibrary.DataAccess
             return persons;
         }
 
-        public TeamModel CreateTeam(TeamModel team)
+        public void CreateTeam(TeamModel team)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.SqlConnectionString))
             {
@@ -87,8 +83,6 @@ namespace TournamentTrackerLibrary.DataAccess
 
                     connection.Execute("dbo.spTeamMembers_Insert", parameters, commandType: CommandType.StoredProcedure);
                 }
-
-                return team;
             }
         }
 
@@ -111,7 +105,7 @@ namespace TournamentTrackerLibrary.DataAccess
             return teams;
         }
 
-        public TournamentModel CreateTournament(TournamentModel tournament)
+        public void CreateTournament(TournamentModel tournament)
         {
             using (IDbConnection connection = new SqlConnection(GlobalConfig.SqlConnectionString))
             {
@@ -119,7 +113,6 @@ namespace TournamentTrackerLibrary.DataAccess
                 SaveTournamentTeams(connection, tournament);
                 SaveTournamentPrizes(connection, tournament);
                 SaveTournamentRounds(connection, tournament);
-                return tournament;
             }
         }
 

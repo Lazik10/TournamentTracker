@@ -1,6 +1,7 @@
 ﻿using TournamentTrackerLibrary;
 using TournamentTrackerLibrary.DataAccess;
 using TournamentTrackerLibrary.Models;
+using TournamentTrackerLibrary.Logic;
 
 namespace TournamentTrackerUI.Forms
 {
@@ -54,6 +55,8 @@ namespace TournamentTrackerUI.Forms
             labelScore.Visible = show;
             labelVs.Visible = show;
             labelTeamName.Visible = show;
+            labelFirstTeamScore.Visible = show;
+            labelSecondTeamScore.Visible = show;
         }
 
         private void buttonConfirmScore_MouseHover(object sender, EventArgs e)
@@ -69,12 +72,6 @@ namespace TournamentTrackerUI.Forms
         private void buttonConfirmScore_MouseEnter(object sender, EventArgs e)
         {
             buttonConfirmScore.ForeColor = System.Drawing.Color.White;
-        }
-
-        private void TournamentViewerForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            TournamentDashboardForm dashboard = new TournamentDashboardForm();
-            dashboard.Show();
         }
 
         private void comboBoxRound_SelectedIndexChanged(object sender, EventArgs e)
@@ -100,14 +97,46 @@ namespace TournamentTrackerUI.Forms
             labelFirstTeamName.Text = string.IsNullOrEmpty(firstTeamName) ? "Bye" : firstTeamName;
             labelSecondTeamName.Text = string.IsNullOrEmpty(secondTeamName) ? "Bye" : secondTeamName;
 
+            UpdateMatchupInfoVisibility(matchup, firstTeamInfo, secondTeamInfo);
+        }
+
+        private void UpdateMatchupInfoVisibility(MatchupModel? matchup, MatchupTeamInfoModel firstTeamInfo, MatchupTeamInfoModel secondTeamInfo)
+        {
+            if (matchup?.Winner is null)
+            {
+                labelFirstTeamScore.Visible = false;
+                labelSecondTeamScore.Visible = false;
+                textBoxFirstTeamScore.Visible = true;
+                textBoxSecondTeamScore.Visible = true;
+            }
+            else
+            {
+                labelFirstTeamScore.Visible = true;
+                labelSecondTeamScore.Visible = true;
+                textBoxFirstTeamScore.Visible = false;
+                textBoxSecondTeamScore.Visible = false;
+            }
+
             textBoxFirstTeamScore.Text = firstTeamInfo?.Score.ToString();
             textBoxSecondTeamScore.Text = secondTeamInfo?.Score.ToString();
+            labelFirstTeamScore.Text = firstTeamInfo?.Score.ToString();
+            labelSecondTeamScore.Text = secondTeamInfo?.Score.ToString();
         }
 
         private void checkBoxUnplayedOnly_CheckedChanged(object sender, EventArgs e)
         {
             unplayedOnly = !unplayedOnly;
             LoadMatchups();
+
+            MatchupTeamInfoModel firstTeamInfo = new MatchupTeamInfoModel();
+            MatchupTeamInfoModel secondTeamInfo = new MatchupTeamInfoModel();
+            MatchupModel? matchup = listBoxRoundMatchups.SelectedItem as MatchupModel;
+            if (matchup != null)
+            {
+                firstTeamInfo = matchup.TeamsInfo[0];
+                secondTeamInfo = matchup.TeamsInfo[1];
+            }
+            UpdateMatchupInfoVisibility(matchup, firstTeamInfo, secondTeamInfo);
         }
 
         private void buttonConfirmScore_Click(object sender, EventArgs e)
@@ -115,59 +144,23 @@ namespace TournamentTrackerUI.Forms
             if (ValidateScore())
             {
                 MatchupModel matchup = (MatchupModel)listBoxRoundMatchups.SelectedItem;
-                List<MatchupModel> nextRoundMatchups;
+                if (matchup?.Winner is not null)
+                {
+                    MessageBox.Show("You can't change score of a matchup that has been already played!");
+                    return;
+                }
 
                 double firstTeamScore = double.Parse(textBoxFirstTeamScore.Text);
                 double secondTeamScore = double.Parse(textBoxSecondTeamScore.Text);
 
-                int? winnerId = 0;
-
-                if (firstTeamScore > secondTeamScore)
-                    winnerId = matchup.TeamsInfo[0].TeamCompetingId;
-                else if (secondTeamScore > firstTeamScore)
-                    winnerId = matchup.TeamsInfo[1].TeamCompetingId;
-                else
+                if (firstTeamScore == secondTeamScore)
                 {
-                    MessageBox.Show("Final score can't be tie! Please fix your score!");
+                    MessageBox.Show("Game's result can't be tie!");
                     return;
                 }
 
-                matchup.TeamsInfo[0].Score = firstTeamScore;
-                matchup.TeamsInfo[1].Score = secondTeamScore;
-                matchup.Winner = tournament.EntryTeams.Where(x => x.Id == winnerId).First();
-                matchup.WinnerId = winnerId;
-
-                // There is no matchap in next round if we are evaluating last round (finale)
-                if (matchup.MatchupRound < tournament.Rounds.Count)
-                {
-                    // Current matchup round is based from 1 to X, this means it also has an index of next round because of zero based index of List
-                    nextRoundMatchups = tournament.Rounds[matchup.MatchupRound];
-                    foreach (MatchupModel roundMatchup in nextRoundMatchups)
-                    {
-                        foreach (MatchupTeamInfoModel infoModel in roundMatchup.TeamsInfo)
-                        {
-                            if (infoModel.ParentMatchupId == matchup.Id)
-                            {
-                                infoModel.TeamCompeting = matchup.Winner;
-                                infoModel.TeamCompetingId = matchup.WinnerId;
-                            }
-                        }
-
-                        roundMatchup.TeamsCompeting = roundMatchup.TeamsInfo[0]?.TeamCompeting?.TeamName + " vs " +
-                                                      roundMatchup.TeamsInfo[1]?.TeamCompeting?.TeamName;
-
-                        foreach (IDataConnection connection in GlobalConfig.Connections)
-                        {
-                            connection.UpdateMatchup(roundMatchup);
-                        }
-                    }
-                }
-
-                foreach (IDataConnection connection in GlobalConfig.Connections)
-                {
-                    connection.UpdateMatchup(matchup);
-                }
-
+                if (matchup is not null)
+                    Matchmaking.UpdateTournamentResults(tournament, matchup, firstTeamScore, secondTeamScore);
                 LoadMatchups();
             }
             else

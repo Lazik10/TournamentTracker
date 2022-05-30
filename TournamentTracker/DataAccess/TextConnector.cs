@@ -10,7 +10,7 @@ namespace TournamentTrackerLibrary.DataAccess
         /// </summary>
         /// <param name="prize">Prize informations</param>
         /// <returns>Prize with unique ID</returns>
-        public PrizeModel CreatePrize(PrizeModel prize)
+        public void CreatePrize(PrizeModel prize)
         {
             List<PrizeModel> prizes = GlobalConfig.PrizeFile.FullFilePath().LoadFile().ConvertToPrizeModels();
 
@@ -23,8 +23,6 @@ namespace TournamentTrackerLibrary.DataAccess
 
             prizes.Add(prize);
             prizes.SaveToPrizeFile();
-
-            return prize;
         }
 
         /// <summary>
@@ -32,7 +30,7 @@ namespace TournamentTrackerLibrary.DataAccess
         /// </summary>
         /// <param name="prize">Person informations</param>
         /// <returns>Person with unique ID</returns>
-        public PersonModel CreatePerson(PersonModel person)
+        public void CreatePerson(PersonModel person)
         {
             List<PersonModel> contestants = GlobalConfig.ContestantFile.FullFilePath().LoadFile().ConvertToPersonModels();
 
@@ -45,8 +43,6 @@ namespace TournamentTrackerLibrary.DataAccess
 
             contestants.Add(person);
             contestants.SaveToContestantsFile();
-
-            return person;
         }
 
         public List<PersonModel> GetAllPersons()
@@ -54,7 +50,7 @@ namespace TournamentTrackerLibrary.DataAccess
             return GlobalConfig.ContestantFile.FullFilePath().LoadFile().ConvertToPersonModels();
         }
 
-        public TeamModel CreateTeam(TeamModel team)
+        public void CreateTeam(TeamModel team)
         {
             List<TeamModel> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile().ConvertToTeamModels();
 
@@ -67,10 +63,7 @@ namespace TournamentTrackerLibrary.DataAccess
 
             team.Id = currentId;
             teams.Add(team);
-
             teams.SaveToTeamsFile();
-
-            return team;
         }
 
         public List<TeamModel> GetAllTeams()
@@ -78,7 +71,7 @@ namespace TournamentTrackerLibrary.DataAccess
             return GlobalConfig.TeamFile.FullFilePath().LoadFile().ConvertToTeamModels();
         }
 
-        public TournamentModel CreateTournament(TournamentModel tournament)
+        public void CreateTournament(TournamentModel tournament)
         {
             List<TournamentModel> tournaments = GlobalConfig.TournamentFile.FullFilePath().LoadFile().ConvertToTournamentModels();
 
@@ -94,8 +87,6 @@ namespace TournamentTrackerLibrary.DataAccess
             
             tournaments.Add(tournament);
             tournaments.SaveToTournamentFile();
-
-            return tournament;
         }
 
         public List<TournamentModel> GetAllTournaments()

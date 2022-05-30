@@ -118,29 +118,44 @@ namespace TournamentTrackerUI.Forms
 
         private void buttonCreateTournament_Click(object sender, EventArgs e)
         {
+            if (ValidateCreateTournamentForm())
+            {
+                TournamentModel tournament = new TournamentModel();
+                tournament.TournamentName = textBoxTournamentName.Text;
+                tournament.EntryFee = decimal.Parse(textBoxEntryFee.Text);
+                tournament.Prizes = selectedPrizes;
+                tournament.EntryTeams = selectedTeams;
+
+                Matchmaking.CreateRounds(tournament);
+
+                foreach (IDataConnection connection in GlobalConfig.Connections)
+                {
+                    connection.CreateTournament(tournament);
+                }
+
+                TournamentViewerForm viewTournamentForm = new TournamentViewerForm(tournament);
+                viewTournamentForm.Show();
+                Close();
+            }
+        }
+
+        private bool ValidateCreateTournamentForm()
+        {
+            bool result = true;
+            if (textBoxTournamentName.Text.Length > 12)
+            {
+                MessageBox.Show("Team name can have maximum of 12 characters!");
+                result = false;
+            }
+
             bool validFee = decimal.TryParse(textBoxEntryFee.Text, out decimal fee);
             if (!validFee)
             {
                 MessageBox.Show("Please insert correct fee", "Incorrect fee value", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                result = false;
             }
 
-            TournamentModel tournament = new TournamentModel();
-            tournament.TournamentName = textBoxTournamentName.Text;
-            tournament.EntryFee = fee;
-            tournament.Prizes = selectedPrizes;
-            tournament.EntryTeams = selectedTeams;
-
-            Matchmaking.CreateRounds(tournament);
-
-            foreach (IDataConnection connection in GlobalConfig.Connections)
-            {
-                connection.CreateTournament(tournament);
-            }
-
-            TournamentViewerForm viewTournamentForm = new TournamentViewerForm(tournament);
-            viewTournamentForm.Show();
-            Close();
+            return result;
         }
     }
 }

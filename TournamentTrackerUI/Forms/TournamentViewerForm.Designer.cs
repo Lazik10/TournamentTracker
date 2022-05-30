@@ -32,6 +32,8 @@
             this.labelTournament = new System.Windows.Forms.Label();
             this.labelTournamentName = new System.Windows.Forms.Label();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.labelSecondTeamScore = new System.Windows.Forms.Label();
+            this.labelFirstTeamScore = new System.Windows.Forms.Label();
             this.textBoxSecondTeamScore = new System.Windows.Forms.TextBox();
             this.textBoxFirstTeamScore = new System.Windows.Forms.TextBox();
             this.buttonConfirmScore = new System.Windows.Forms.Button();
@@ -81,6 +83,8 @@
             // 
             // panelMain
             // 
+            this.panelMain.Controls.Add(this.labelSecondTeamScore);
+            this.panelMain.Controls.Add(this.labelFirstTeamScore);
             this.panelMain.Controls.Add(this.textBoxSecondTeamScore);
             this.panelMain.Controls.Add(this.textBoxFirstTeamScore);
             this.panelMain.Controls.Add(this.buttonConfirmScore);
@@ -98,6 +102,24 @@
             this.panelMain.Name = "panelMain";
             this.panelMain.Size = new System.Drawing.Size(735, 573);
             this.panelMain.TabIndex = 2;
+            // 
+            // labelSecondTeamScore
+            // 
+            this.labelSecondTeamScore.AutoSize = true;
+            this.labelSecondTeamScore.Location = new System.Drawing.Point(638, 371);
+            this.labelSecondTeamScore.Name = "labelSecondTeamScore";
+            this.labelSecondTeamScore.Size = new System.Drawing.Size(86, 30);
+            this.labelSecondTeamScore.TabIndex = 15;
+            this.labelSecondTeamScore.Text = "STScore";
+            // 
+            // labelFirstTeamScore
+            // 
+            this.labelFirstTeamScore.AutoSize = true;
+            this.labelFirstTeamScore.Location = new System.Drawing.Point(638, 243);
+            this.labelFirstTeamScore.Name = "labelFirstTeamScore";
+            this.labelFirstTeamScore.Size = new System.Drawing.Size(85, 30);
+            this.labelFirstTeamScore.TabIndex = 14;
+            this.labelFirstTeamScore.Text = "FTScore";
             // 
             // textBoxSecondTeamScore
             // 
@@ -274,7 +296,6 @@
             this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.Name = "TournamentViewerForm";
             this.Text = "TournamentViewer";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TournamentViewerForm_FormClosing);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -304,5 +325,7 @@
         private Label labelVs;
         private Label labelSecondTeamName;
         private Label labelFirstTeamName;
+        private Label labelSecondTeamScore;
+        private Label labelFirstTeamScore;
     }
 }

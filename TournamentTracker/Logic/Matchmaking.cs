@@ -1,4 +1,5 @@
-﻿using TournamentTrackerLibrary.Models;
+﻿using TournamentTrackerLibrary.DataAccess;
+using TournamentTrackerLibrary.Models;
 
 namespace TournamentTrackerLibrary.Logic
 {
@@ -16,6 +17,8 @@ namespace TournamentTrackerLibrary.Logic
 
         private static void CreateNextRounds(TournamentModel tournament, int rounds)
         {
+            // TODO - Fix issue when creating new tournament and immediately opening viewer form matchup TeamsCompeting are not updated
+
             // We created first round so start generating from second round
             int currentRound = 2;
             const int TeamsInMatchup = 2;
@@ -109,6 +112,62 @@ namespace TournamentTrackerLibrary.Logic
         private static List<TeamModel> RandomizeTeamsOrder(List<TeamModel> teams)
         {
             return teams.OrderBy(x => Guid.NewGuid()).ToList();
+        }
+
+        public static void UpdateTournamentResults(TournamentModel tournament, MatchupModel matchup, double firstTeamScore, double secondTeamScore)
+        {
+            UpdateScore(tournament, matchup, firstTeamScore, secondTeamScore);
+            AdvanceWinners(matchup, tournament);
+        }
+
+        private static void UpdateScore(TournamentModel tournament, MatchupModel matchup, double firstTeamScore, double secondTeamScore)
+        {
+            int? winnerId = 0;
+
+            if (firstTeamScore > secondTeamScore)
+                winnerId = matchup.TeamsInfo[0].TeamCompetingId;
+            else if (secondTeamScore > firstTeamScore)
+                winnerId = matchup.TeamsInfo[1].TeamCompetingId;
+
+            matchup.TeamsInfo[0].Score = firstTeamScore;
+            matchup.TeamsInfo[1].Score = secondTeamScore;
+            matchup.Winner = tournament.EntryTeams.Where(x => x.Id == winnerId).First();
+            matchup.WinnerId = winnerId;
+        }
+
+        private static void AdvanceWinners(MatchupModel matchup, TournamentModel tournament)
+        {
+            List<MatchupModel> nextRoundMatchups;
+            // There is no matchap in next round if we are evaluating last round (finale)
+            if (matchup.MatchupRound < tournament.Rounds.Count)
+            {
+                // Current matchup round is based from 1 to X, this means it also has an index of next round because of zero based index of List
+                nextRoundMatchups = tournament.Rounds[matchup.MatchupRound];
+                foreach (MatchupModel roundMatchup in nextRoundMatchups)
+                {
+                    foreach (MatchupTeamInfoModel infoModel in roundMatchup.TeamsInfo)
+                    {
+                        if (infoModel.ParentMatchupId == matchup.Id)
+                        {
+                            infoModel.TeamCompeting = matchup.Winner;
+                            infoModel.TeamCompetingId = matchup.WinnerId;
+                        }
+                    }
+
+                    roundMatchup.TeamsCompeting = roundMatchup.TeamsInfo[0]?.TeamCompeting?.TeamName + " vs " +
+                                                  roundMatchup.TeamsInfo[1]?.TeamCompeting?.TeamName;
+
+                    foreach (IDataConnection connection in GlobalConfig.Connections)
+                    {
+                        connection.UpdateMatchup(roundMatchup);
+                    }
+                }
+            }
+
+            foreach (IDataConnection connection in GlobalConfig.Connections)
+            {
+                connection.UpdateMatchup(matchup);
+            }
         }
     }
 }
