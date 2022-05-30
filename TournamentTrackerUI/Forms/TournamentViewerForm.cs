@@ -141,9 +141,12 @@ namespace TournamentTrackerUI.Forms
 
         private void buttonConfirmScore_Click(object sender, EventArgs e)
         {
+            MatchupModel matchup = (MatchupModel)listBoxRoundMatchups.SelectedItem;
+            if (!PreviousRoundCompleted(matchup))
+                return;
+
             if (ValidateScore())
             {
-                MatchupModel matchup = (MatchupModel)listBoxRoundMatchups.SelectedItem;
                 if (matchup?.Winner is not null)
                 {
                     MessageBox.Show("You can't change score of a matchup that has been already played!");
@@ -167,6 +170,21 @@ namespace TournamentTrackerUI.Forms
             }
             else
                 MessageBox.Show("Your score is invalid");
+        }
+
+        private bool PreviousRoundCompleted(MatchupModel matchup)
+        {
+            int matchupRoundId = matchup.MatchupRound;
+            if (matchupRoundId > 1)
+            {
+                var matchups = tournament.Rounds[matchupRoundId - 1].Where(x => x.WinnerId == null).ToList();
+                if (matchups.Count == 0)
+                {
+                    MessageBox.Show("Previous round is not finished yet.");
+                    return false;
+                }
+            }
+            return true;
         }
 
         private bool ValidateScore()
