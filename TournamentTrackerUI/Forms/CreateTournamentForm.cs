@@ -135,9 +135,6 @@ namespace TournamentTrackerUI.Forms
                     connection.CreateTournament(tournament);
                 }
 
-                TournamentViewerForm viewTournamentForm = new TournamentViewerForm(tournament);
-                viewTournamentForm.Show();
-
                 LoadTournaments?.Invoke(this, new EventArgs());
 
                 Close();
