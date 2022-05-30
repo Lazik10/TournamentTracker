@@ -107,6 +107,12 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
                 matchup.TeamsInfo = teamInfo.Where(x => x.MatchupId == matchup.Id).ToList();
                 matchup.MatchupRound = int.Parse(columns[2]);
 
+
+                string? firstTeamName = matchup.TeamsInfo[0]?.TeamCompeting?.TeamName;
+                string? secondTeamname = matchup.TeamsInfo[1]?.TeamCompeting?.TeamName;
+
+                matchup.TeamsCompeting = (firstTeamName ?? "Bye") + " vs " + (secondTeamname ??= "Bye");
+
                 matchups.Add(matchup);
             }
 
@@ -280,7 +286,7 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
             return $"{teamInfo.MatchupId},{teamInfo.ParentMatchupId},{teamInfo.TeamCompetingId},{teamInfo.Score}";
         }
 
-        private static void SaveToMatchupFile(this List<MatchupModel> matchups)
+        public static void SaveToMatchupFile(this List<MatchupModel> matchups)
         {
             List<string> lines = new List<string>();
 
@@ -291,7 +297,7 @@ namespace TournamentTrackerLibrary.DataAccess.Helpers
             File.WriteAllLines(GlobalConfig.MatchupFile.FullFilePath(), lines);
         }
 
-        private static void SaveToTeamInfoFile(this List<MatchupTeamInfoModel> teamInfoModels)
+        public static void SaveToTeamInfoFile(this List<MatchupTeamInfoModel> teamInfoModels)
         {
             List<string> lines = new List<string>();
 

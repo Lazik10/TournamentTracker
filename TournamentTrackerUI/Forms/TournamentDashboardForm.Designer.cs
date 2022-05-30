@@ -85,6 +85,7 @@
             this.buttonLoadTournament.TabIndex = 23;
             this.buttonLoadTournament.Text = "Load";
             this.buttonLoadTournament.UseVisualStyleBackColor = true;
+            this.buttonLoadTournament.Click += new System.EventHandler(this.buttonLoadTournament_Click);
             this.buttonLoadTournament.MouseEnter += new System.EventHandler(this.button_MouseEnter);
             this.buttonLoadTournament.MouseLeave += new System.EventHandler(this.button_MouseLeave);
             this.buttonLoadTournament.MouseHover += new System.EventHandler(this.button_MouseHover);

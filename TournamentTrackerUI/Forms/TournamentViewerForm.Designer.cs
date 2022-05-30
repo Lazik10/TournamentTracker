@@ -36,7 +36,7 @@
             this.textBoxFirstTeamScore = new System.Windows.Forms.TextBox();
             this.buttonConfirmScore = new System.Windows.Forms.Button();
             this.labelTeamName = new System.Windows.Forms.Label();
-            this.labelScoreFirstTeam = new System.Windows.Forms.Label();
+            this.labelScore = new System.Windows.Forms.Label();
             this.labelVs = new System.Windows.Forms.Label();
             this.labelSecondTeamName = new System.Windows.Forms.Label();
             this.labelFirstTeamName = new System.Windows.Forms.Label();
@@ -85,7 +85,7 @@
             this.panelMain.Controls.Add(this.textBoxFirstTeamScore);
             this.panelMain.Controls.Add(this.buttonConfirmScore);
             this.panelMain.Controls.Add(this.labelTeamName);
-            this.panelMain.Controls.Add(this.labelScoreFirstTeam);
+            this.panelMain.Controls.Add(this.labelScore);
             this.panelMain.Controls.Add(this.labelVs);
             this.panelMain.Controls.Add(this.labelSecondTeamName);
             this.panelMain.Controls.Add(this.labelFirstTeamName);
@@ -129,6 +129,7 @@
             this.buttonConfirmScore.TabIndex = 11;
             this.buttonConfirmScore.Text = "Confirm";
             this.buttonConfirmScore.UseVisualStyleBackColor = true;
+            this.buttonConfirmScore.Click += new System.EventHandler(this.buttonConfirmScore_Click);
             this.buttonConfirmScore.MouseEnter += new System.EventHandler(this.buttonConfirmScore_MouseEnter);
             this.buttonConfirmScore.MouseLeave += new System.EventHandler(this.buttonConfirmScore_MouseLeave);
             this.buttonConfirmScore.MouseHover += new System.EventHandler(this.buttonConfirmScore_MouseHover);
@@ -144,16 +145,16 @@
             this.labelTeamName.TabIndex = 8;
             this.labelTeamName.Text = "Name";
             // 
-            // labelScoreFirstTeam
+            // labelScore
             // 
-            this.labelScoreFirstTeam.AutoSize = true;
-            this.labelScoreFirstTeam.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.labelScoreFirstTeam.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.labelScoreFirstTeam.Location = new System.Drawing.Point(613, 170);
-            this.labelScoreFirstTeam.Name = "labelScoreFirstTeam";
-            this.labelScoreFirstTeam.Size = new System.Drawing.Size(67, 30);
-            this.labelScoreFirstTeam.TabIndex = 7;
-            this.labelScoreFirstTeam.Text = "Score";
+            this.labelScore.AutoSize = true;
+            this.labelScore.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.labelScore.ForeColor = System.Drawing.Color.DeepSkyBlue;
+            this.labelScore.Location = new System.Drawing.Point(613, 170);
+            this.labelScore.Name = "labelScore";
+            this.labelScore.Size = new System.Drawing.Size(67, 30);
+            this.labelScore.TabIndex = 7;
+            this.labelScore.Text = "Score";
             // 
             // labelVs
             // 
@@ -196,6 +197,7 @@
             this.listBoxRoundMatchups.Name = "listBoxRoundMatchups";
             this.listBoxRoundMatchups.Size = new System.Drawing.Size(399, 424);
             this.listBoxRoundMatchups.TabIndex = 3;
+            this.listBoxRoundMatchups.SelectedIndexChanged += new System.EventHandler(this.listBoxRoundMatchups_SelectedIndexChanged);
             // 
             // panel2
             // 
@@ -212,6 +214,8 @@
             // 
             this.checkBoxUnplayedOnly.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.checkBoxUnplayedOnly.AutoSize = true;
+            this.checkBoxUnplayedOnly.Checked = true;
+            this.checkBoxUnplayedOnly.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxUnplayedOnly.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.checkBoxUnplayedOnly.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.checkBoxUnplayedOnly.ForeColor = System.Drawing.Color.DeepSkyBlue;
@@ -221,6 +225,7 @@
             this.checkBoxUnplayedOnly.TabIndex = 2;
             this.checkBoxUnplayedOnly.Text = "Unplayed Only";
             this.checkBoxUnplayedOnly.UseVisualStyleBackColor = true;
+            this.checkBoxUnplayedOnly.CheckedChanged += new System.EventHandler(this.checkBoxUnplayedOnly_CheckedChanged);
             // 
             // comboBoxRound
             // 
@@ -231,6 +236,7 @@
             this.comboBoxRound.Name = "comboBoxRound";
             this.comboBoxRound.Size = new System.Drawing.Size(121, 25);
             this.comboBoxRound.TabIndex = 1;
+            this.comboBoxRound.SelectedIndexChanged += new System.EventHandler(this.comboBoxRound_SelectedIndexChanged);
             // 
             // labelRound
             // 
@@ -268,6 +274,7 @@
             this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.Name = "TournamentViewerForm";
             this.Text = "TournamentViewer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TournamentViewerForm_FormClosing);
             this.panelMain.ResumeLayout(false);
             this.panelMain.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -293,7 +300,7 @@
         private TextBox textBoxFirstTeamScore;
         private Button buttonConfirmScore;
         private Label labelTeamName;
-        private Label labelScoreFirstTeam;
+        private Label labelScore;
         private Label labelVs;
         private Label labelSecondTeamName;
         private Label labelFirstTeamName;

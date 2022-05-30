@@ -6,6 +6,7 @@
         /// Unique identification od a matchup
         /// </summary>
         public int Id { get; set; }
+
         /// <summary>
         /// Contains two teams compeating against each other
         /// </summary>
@@ -15,6 +16,7 @@
         /// Id of a team which won the match
         /// </summary>
         public int? WinnerId { get; set; }
+
         /// <summary>
         /// Team info of a winner
         /// </summary>
@@ -24,5 +26,7 @@
         /// Represents matchup round number
         /// </summary>
         public int MatchupRound { get; set; }
+
+        public string? TeamsCompeting { get; set; }
     }
 }

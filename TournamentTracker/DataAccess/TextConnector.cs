@@ -102,5 +102,32 @@ namespace TournamentTrackerLibrary.DataAccess
         {
             return GlobalConfig.TournamentFile.FullFilePath().LoadFile().ConvertToTournamentModels();
         }
+
+        public void UpdateMatchup(MatchupModel matchup)
+        {
+            List<MatchupModel> matchups = GlobalConfig.MatchupFile.FullFilePath().LoadFile().ConvertToMatchupModels();
+            List<MatchupTeamInfoModel> teamInfoModels = GlobalConfig.MatchupTeamFile.FullFilePath().LoadFile().ConvertToTeamInfoModels();
+
+            MatchupModel updatedMatchup = matchups.Where(x => x.Id == matchup.Id).First();
+            updatedMatchup.Winner = matchup.Winner;
+            updatedMatchup.WinnerId = matchup.WinnerId;
+
+            TextConnectorProcessor.SaveToMatchupFile(matchups);
+
+            for (int i = 0; i < 2; i++)
+            {
+                if (matchup.TeamsInfo[i].TeamCompetingId != null)
+                {
+                    MatchupTeamInfoModel teamInfoModel = new MatchupTeamInfoModel();
+                    var query = teamInfoModels.Where(x => x.MatchupId == matchup.Id && matchup.TeamsInfo[i].TeamCompetingId == x.TeamCompetingId);
+                    if (query.Any())
+                    {
+                        teamInfoModel = teamInfoModels.First();
+                        teamInfoModel.Score = matchup.TeamsInfo[i].Score;
+                    }
+                }
+            }
+            TextConnectorProcessor.SaveToTeamInfoFile(teamInfoModels);
+        }
     }
 }

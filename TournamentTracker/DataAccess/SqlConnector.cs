@@ -140,6 +140,7 @@ namespace TournamentTrackerLibrary.DataAccess
                         if (roundId > 0)
                             teamInfo.ParentMatchupId = parentMatchupIds.Dequeue();
 
+                        teamInfo.MatchupId = matchup.Id;
                         SaveTeamInfo(connection, teamInfo, matchup.Id);
                     }
                 }
@@ -269,13 +270,45 @@ namespace TournamentTrackerLibrary.DataAccess
 
                                 if (teamInfoModel.ParentMatchupId is not null && teamInfoModel.ParentMatchupId != 0)
                                     teamInfoModel.ParentMatchup = matchups.Where(x => x.Id == teamInfoModel.ParentMatchupId).First();
+
+                                teamInfoModel.MatchupId = matchup.Id;
                             }
+
+                            string? firstTeamName = matchup.TeamsInfo[0].TeamCompeting?.TeamName;
+                            string? secondTeamName = matchup.TeamsInfo[1].TeamCompeting?.TeamName;
+
+                            matchup.TeamsCompeting = firstTeamName is null ? "Bye" : firstTeamName;
+                            matchup.TeamsCompeting += " vs ";
+                            matchup.TeamsCompeting += secondTeamName is null ? "Bye" : secondTeamName;
                         }
                     }
                 }
             }
 
             return tournaments;
+        }
+
+        public void UpdateMatchup(MatchupModel matchup)
+        {
+            using (IDbConnection connection = new SqlConnection(GlobalConfig.SqlConnectionString))
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("Id", matchup.Id);
+                parameters.Add("WinnerId", matchup.WinnerId);
+
+                connection.Execute("dbo.spMatchups_Update", parameters, commandType: CommandType.StoredProcedure);
+
+                foreach (MatchupTeamInfoModel teamInfoModel in matchup.TeamsInfo)
+                {
+                    parameters = new DynamicParameters();
+                    parameters.Add("@id", teamInfoModel.Id);
+                    parameters.Add("@Score", teamInfoModel.Score);
+                    parameters.Add("@MatchupId", matchup.Id);
+                    parameters.Add("@TeamCompetingId", teamInfoModel.TeamCompetingId);
+
+                    connection.Execute("dbo.spMatchupTeams_Update", parameters, commandType: CommandType.StoredProcedure);
+                }
+            }
         }
     }
 }
