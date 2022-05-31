@@ -62,10 +62,7 @@ namespace TournamentTrackerLibrary.Logic
                             sb.AppendLine("<h1>You have a BYE in the first round of a tournament</h1>");
                             body = sb.ToString();
                         }
-                    }
 
-                    if (teamInfo.TeamCompeting is not null)
-                    {
                         foreach (PersonModel person in teamInfo.TeamCompeting.TeamMembers)
                         {
                             if (person.Address is not null)
@@ -85,7 +82,7 @@ namespace TournamentTrackerLibrary.Logic
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"<h1>{tournamentName} has a winner!</h1>");
             sb.AppendLine();
-            sb.AppendLine($"Team {matchup?.Winner?.TeamName} has won the tournament!");
+            sb.AppendLine($"Team <strong>{matchup?.Winner?.TeamName}</strong> has won the tournament!");
 
             List<PersonModel> teammates = new List<PersonModel>();
             if (matchup is not null && matchup.Winner is not null)
@@ -96,11 +93,12 @@ namespace TournamentTrackerLibrary.Logic
                 {
                     foreach (PersonModel person in teammates)
                     {
-                        teammatesStr += $"{person.FullName}";
+                        teammatesStr = string.Join(", ", teammates.Select(x => x.FullName));
                     }
                 }
 
-                sb.AppendLine($"Team members were: {teammatesStr}");
+                sb.AppendLine($"Team members were: <strong>{teammatesStr}</strong>");
+
                 body = sb.ToString();
 
                 foreach (TeamModel team in teams)
