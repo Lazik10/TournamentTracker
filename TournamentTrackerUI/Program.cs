@@ -1,3 +1,4 @@
+using TournamentTrackerLibrary.Logic;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
@@ -17,13 +18,19 @@ namespace TournamentTrackerUI
 
             // Load appsettings file
             IConfigurationBuilder builder = new ConfigurationBuilder();
-            builder.AddJsonFile("appsettings.json");
+            builder.AddJsonFile("appsettings.json", true, true);
             builder.AddUserSecrets(Assembly.GetExecutingAssembly());
             IConfiguration config = builder.Build();
 
             // Initialize the database connection
-            TournamentTrackerLibrary.GlobalConfig.InitializeConnections(true, false);
+            TournamentTrackerLibrary.GlobalConfig.InitializeConnections(false, true);
             TournamentTrackerLibrary.GlobalConfig.SqlConnectionString = config.GetConnectionString("SqlConnection");
+
+            // Initialize email data
+            Email.Port = int.Parse(config["Smtp:Port"]);
+            Email.Connection = config["Smtp:Host"];
+            Email.Login = config["Smtp:Login"];
+            Email.Password = config["Smtp:Password"];
 
             Application.Run(new Forms.TournamentDashboardForm());
         }

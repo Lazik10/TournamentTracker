@@ -168,9 +168,33 @@ namespace TournamentTrackerUI.Forms
 
                 GetSelectedMatchupInfo(out MatchupModel? matchupNew, out MatchupTeamInfoModel firstTeamInfo, out MatchupTeamInfoModel secondTeamInfo);
                 UpdateMatchupInfoVisibility(matchupNew, firstTeamInfo, secondTeamInfo);
+
+                if (matchup is not null)
+                {
+                    int round = matchup.MatchupRound;
+                    if (LastMatchupInRoundPlayed(tournament.Rounds[round - 1]))
+                    {
+                        // There is only one matchup in a final so we can already sent winner notification after submiting this score
+                        if (round == tournament.Rounds.Count)
+                        {
+                            Email.SendWinnerNotifications(tournament.EntryTeams, matchup, tournament.TournamentName);
+                        }
+                        else
+                        {
+                            // Send notification about next round, that is why index is same as last confirmed matchup round Id
+                            // rounds starts from 1 and index from zero
+                            Email.SendNextRoundNotifications(tournament.Rounds[matchup.MatchupRound], tournament.TournamentName);
+                        }
+                    }
+                }
             }
             else
                 MessageBox.Show("Your score is invalid");
+        }
+
+        private bool LastMatchupInRoundPlayed(List<MatchupModel> matchups)
+        {
+            return matchups.Where(x => x.WinnerId == null).ToList().Count == 0;
         }
 
         private bool PreviousRoundCompleted(MatchupModel matchup)
@@ -178,7 +202,7 @@ namespace TournamentTrackerUI.Forms
             int matchupRoundId = matchup.MatchupRound;
             if (matchupRoundId > 1)
             {
-                var matchups = tournament.Rounds[matchupRoundId - 1].Where(x => x.WinnerId == null).ToList();
+                var matchups = tournament.Rounds[matchupRoundId - 2].Where(x => x.WinnerId == null).ToList();
                 if (matchups.Count > 0)
                 {
                     ClearScore();

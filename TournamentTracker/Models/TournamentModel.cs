@@ -9,7 +9,7 @@
         /// <summary>
         /// Tournament name
         /// </summary>
-        public string? TournamentName { get; set; }
+        public string TournamentName { get; set; }
 
         /// <summary>
         /// Tournament's entry fee

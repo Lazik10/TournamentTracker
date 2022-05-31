@@ -135,6 +135,8 @@ namespace TournamentTrackerUI.Forms
                     connection.CreateTournament(tournament);
                 }
 
+                Email.SendNextRoundNotifications(tournament.Rounds[0], tournament.TournamentName);
+
                 LoadTournaments?.Invoke(this, new EventArgs());
 
                 Close();
