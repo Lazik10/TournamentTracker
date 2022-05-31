@@ -23,7 +23,7 @@ namespace TournamentTrackerUI
             IConfiguration config = builder.Build();
 
             // Initialize the database connection
-            TournamentTrackerLibrary.GlobalConfig.InitializeConnections(false, true);
+            TournamentTrackerLibrary.GlobalConfig.InitializeConnections(true, false);
             TournamentTrackerLibrary.GlobalConfig.SqlConnectionString = config.GetConnectionString("SqlConnection");
 
             // Initialize email data

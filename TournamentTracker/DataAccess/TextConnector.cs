@@ -120,5 +120,10 @@ namespace TournamentTrackerLibrary.DataAccess
             }
             TextConnectorProcessor.SaveToTeamInfoFile(teamInfoModels);
         }
+
+        public void CompleteTournament(int tournamentId)
+        {
+            // TODO - Implement saving active/finnished status stored in text file as well 
+        }
     }
 }

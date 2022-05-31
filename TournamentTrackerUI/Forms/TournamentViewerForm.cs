@@ -177,6 +177,13 @@ namespace TournamentTrackerUI.Forms
                         // There is only one matchup in a final so we can already sent winner notification after submiting this score
                         if (round == tournament.Rounds.Count)
                         {
+                            tournament.Active = false;
+
+                            foreach (IDataConnection connection in GlobalConfig.Connections)
+                            {
+                                connection.CompleteTournament(tournament.Id);
+                            }
+
                             Email.SendWinnerNotifications(tournament.EntryTeams, matchup, tournament.TournamentName);
                         }
                         else
