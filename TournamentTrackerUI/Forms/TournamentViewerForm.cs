@@ -184,13 +184,19 @@ namespace TournamentTrackerUI.Forms
                                 connection.CompleteTournament(tournament.Id);
                             }
 
-                            Email.SendWinnerNotifications(tournament.EntryTeams, matchup, tournament.TournamentName);
+                            Task sendWinnerNotification = Task.Run(() => 
+                            {
+                                Email.SendWinnerNotifications(tournament.EntryTeams, matchup, tournament.TournamentName);
+                            });
                         }
                         else
                         {
                             // Send notification about next round, that is why index is same as last confirmed matchup round Id
                             // rounds starts from 1 and index from zero
-                            Email.SendNextRoundNotifications(tournament.Rounds[matchup.MatchupRound], tournament.TournamentName);
+                            Task sendNextRoundNotification = Task.Run(() =>
+                            {
+                                Email.SendNextRoundNotifications(tournament.Rounds[matchup.MatchupRound], tournament.TournamentName);
+                            });
                         }
                     }
                 }

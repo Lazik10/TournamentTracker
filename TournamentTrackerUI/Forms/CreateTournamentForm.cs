@@ -118,7 +118,7 @@ namespace TournamentTrackerUI.Forms
             teamForm.Show();
         }
 
-        private void buttonCreateTournament_Click(object sender, EventArgs e)
+        private async void buttonCreateTournament_Click(object sender, EventArgs e)
         {
             if (ValidateCreateTournamentForm())
             {
@@ -135,7 +135,10 @@ namespace TournamentTrackerUI.Forms
                     connection.CreateTournament(tournament);
                 }
 
-                Email.SendNextRoundNotifications(tournament.Rounds[0], tournament.TournamentName);
+                Task sendEmail = Task.Run(() =>
+                {
+                    Email.SendNextRoundNotifications(tournament.Rounds[0], tournament.TournamentName);
+                });
 
                 LoadTournaments?.Invoke(this, new EventArgs());
 
